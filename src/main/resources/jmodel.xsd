@@ -1,0 +1,71 @@
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://jmodel.carlopantaleo.com/JModel/1.0.0"
+           xmlns="http://jmodel.carlopantaleo.com/JModel/1.0.0">
+
+    <xs:element name="item" type="xs:string"/>
+
+    <xs:element name="enum">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="item" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="name"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="typeRestriction">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="string"/>
+            <xs:enumeration value="number"/>
+            <xs:enumeration value="long"/>
+            <xs:enumeration value="double"/>
+            <xs:enumeration value="float"/>
+            <xs:enumeration value="boolean"/>
+            <xs:enumeration value="enum"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="field">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute type="typeRestriction" name="type" use="required"/>
+                    <xs:attribute type="xs:byte" name="length"/>
+                    <xs:attribute type="xs:boolean" name="pk"/>
+                    <xs:attribute type="xs:boolean" name="nullable" default="false"/>
+                    <xs:attribute type="xs:string" name="default"/>
+                    <xs:attribute type="xs:string" name="referred-enum"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="fields">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="field" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="table">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="fields"/>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="name" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="jmodel">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="enum" maxOccurs="unbounded"/>
+                <xs:element ref="table" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
+
+

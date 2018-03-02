@@ -1,0 +1,31 @@
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0"
+           xmlns="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0">
+    <xs:element name="enum" type="xs:string"/>
+    <xs:element name="table" type="xs:string"/>
+    <xs:element name="destination-package" type="xs:string"/>
+    <xs:element name="java-generator">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="destination-package"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="generators">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="java-generator" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="jmodel-configuration">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="generators"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
+
+

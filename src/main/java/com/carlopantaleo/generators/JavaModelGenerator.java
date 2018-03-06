@@ -47,6 +47,11 @@ public class JavaModelGenerator {
         for (Table table : extractTablesAndFields()) {
             writeTableJavaFile(table);
         }
+
+        for (Enum theEnum : extractEnumsAndItems()) {
+            writeEnumJavaFile(theEnum);
+        }
+
     }
 
     private List<Table> extractTablesAndFields() throws XPathExpressionException, ValidationException {
@@ -54,8 +59,30 @@ public class JavaModelGenerator {
 
         extractTables(tables);
         extractFields(tables);
-
         return tables;
+    }
+
+    private List<Enum> extractEnumsAndItems() throws XPathExpressionException, ValidationException {
+        List<Enum> enums = new ArrayList<>();
+
+        extractEnums(enums);
+        extractItems(enums);
+        return enums;
+    }
+
+    private void extractTables(List<Table> tables) throws XPathExpressionException {
+        NodeList tablesNodes = (NodeList) xPath
+                .compile("jmodel/table")
+                .evaluate(model, XPathConstants.NODESET);
+
+        for (int i = 0; i < tablesNodes.getLength(); i++) {
+            Table table = new Table();
+            table.setName(tablesNodes.item(i)
+                    .getAttributes()
+                    .getNamedItem("name")
+                    .getNodeValue());
+            tables.add(table);
+        }
     }
 
     private void extractFields(List<Table> tables) throws XPathExpressionException, ValidationException {
@@ -73,6 +100,42 @@ public class JavaModelGenerator {
             }
         }
     }
+
+    private void extractEnums(List<Enum> enums) throws XPathExpressionException {
+        NodeList tablesNodes = (NodeList) xPath
+                .compile("jmodel/enum")
+                .evaluate(model, XPathConstants.NODESET);
+
+        for (int i = 0; i < tablesNodes.getLength(); i++) {
+            Enum theEnum = new Enum();
+            theEnum.setName(tablesNodes.item(i)
+                    .getAttributes()
+                    .getNamedItem("name")
+                    .getNodeValue());
+            enums.add(theEnum);
+        }
+    }
+
+    private void extractItems(List<Enum> enums) throws XPathExpressionException, ValidationException {
+        for (Enum theEnum : enums) {
+            NodeList items = (NodeList) xPath
+                    .compile(String.format("jmodel/enum[@name='%s']/item", theEnum.getName()))
+                    .evaluate(model, XPathConstants.NODESET);
+
+            for (int i = 0; i < items.getLength(); i++) {
+                String item = null;
+                if (items.item(i).getFirstChild().getNodeValue() != null) {
+                    item = items.item(i).getFirstChild().getNodeValue().trim();
+                }
+                if (item == null || item.isEmpty()) {
+                    throw new ValidationException("Enum " + theEnum.getName() + " cannot have empty items");
+                }
+
+                theEnum.addItem(item);
+            }
+        }
+    }
+
 
     private Field makeField(Node item) throws ValidationException {
         NamedNodeMap attributes = item.getAttributes();
@@ -130,27 +193,22 @@ public class JavaModelGenerator {
         }
     }
 
-    private void extractTables(List<Table> tables) throws XPathExpressionException {
-        NodeList tablesNodes = (NodeList) xPath
-                .compile("jmodel/table")
-                .evaluate(model, XPathConstants.NODESET);
-
-        for (int i = 0; i < tablesNodes.getLength(); i++) {
-            Table table = new Table();
-            table.setName(tablesNodes.item(i)
-                    .getAttributes()
-                    .getNamedItem("name")
-                    .getNodeValue());
-            tables.add(table);
-        }
-    }
-
     private void writeTableJavaFile(Table table) throws Exception {
         try (FileOutputStream fos = new FileOutputStream(rootPackageDir + "/src/main/java/" +
                 destinationPackage.replace('.', '/') + "/" +
                 SnakeCaseToCamelcase.toCamelCaseCapital(table.getName()) + ".java")) {
 
             String source = makeSource(table);
+            fos.write(source.getBytes("UTF8"));
+        }
+    }
+
+    private void writeEnumJavaFile(Enum theEnum) throws Exception {
+        try (FileOutputStream fos = new FileOutputStream(rootPackageDir + "/src/main/java/" +
+                destinationPackage.replace('.', '/') + "/" +
+                SnakeCaseToCamelcase.toCamelCaseCapital(theEnum.getName()) + ".java")) {
+
+            String source = makeSource(theEnum);
             fos.write(source.getBytes("UTF8"));
         }
     }
@@ -167,6 +225,26 @@ public class JavaModelGenerator {
         }
 
         writeHeaderAndFooter(table, sb);
+        return beautify(sb);
+    }
+
+    private String makeSource(Enum theEnum) throws ValidationException, FormatterException {
+        StringBuilder sb = new StringBuilder();
+
+        // Package and enum declaration
+        sb.append("package ").append(destinationPackage).append(';');
+        sb.append("public enum ").append(SnakeCaseToCamelcase.toCamelCaseCapital(theEnum.getName()))
+                .append('{');
+
+        // Enum items
+        for (String item : theEnum.getItems()) {
+            sb.append(item).append(',');
+        }
+        sb.deleteCharAt(sb.length() - 1); // Remove last comma
+
+        // Footer
+        sb.append('}');
+
         return beautify(sb);
     }
 

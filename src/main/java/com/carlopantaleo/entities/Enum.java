@@ -1,13 +1,14 @@
 package com.carlopantaleo.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Enum {
     private String name;
-    private List<String> options;
+    private List<String> items = new ArrayList<>();
 
-    public void addOption(String option) {
-        options.add(option);
+    public void addItem(String item) {
+        items.add(item);
     }
 
     public String getName() {
@@ -18,11 +19,11 @@ public class Enum {
         this.name = name;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public List<String> getItems() {
+        return items;
     }
 
-    public void setOptions(List<String> options) {
-        this.options = options;
+    public void setItems(List<String> items) {
+        this.items = items;
     }
 }

@@ -306,7 +306,6 @@ public class JavaModelGenerator {
         } else if (type == Enum.class) {
             String enumName = SnakeCaseToCamelcase.toCamelCaseCapital(field.getReferredEnum());
             sb.append(enumName);
-            possibleImports.add(destinationPackage + "." + enumName);
         } else {
             sb.append(type.getSimpleName());
         }

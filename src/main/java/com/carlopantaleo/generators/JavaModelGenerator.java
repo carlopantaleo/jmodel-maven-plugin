@@ -345,7 +345,7 @@ public class JavaModelGenerator {
         if (destinationPackage == null) {
             throw new ValidationException("destinationPackage cannot be null.");
         }
-        String pattern = "^(?!\\.)[a-z\\.]*";
+        String pattern = "^(?!\\.)[a-z\\.]*[a-z]$";
         if (!destinationPackage.matches(pattern)) {
             throw new ValidationException(destinationPackage, pattern);
         }

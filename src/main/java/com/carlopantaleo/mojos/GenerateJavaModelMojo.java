@@ -1,6 +1,8 @@
 package com.carlopantaleo.mojos;
 
+import com.carlopantaleo.exceptions.ValidationException;
 import com.carlopantaleo.generators.JavaModelGenerator;
+import com.carlopantaleo.utils.XmlUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -18,61 +20,61 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This Mojo generates standard Java classes from jmodel.xml.
  */
 @Mojo(name = "generate-java-model", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-public class GenerateJavaModelMojo extends AbstractMojo {
-    /**
-     * Location of the xml model file. Defaults to resource-root/jmodel.xml.
-     */
+public class GenerateJavaModelMojo extends JModelMojo {
     @Parameter(property = "jmodel.model", defaultValue = "jmodel.xml")
     private String jmodelFileName = "jmodel.xml";
 
     @Parameter(property = "jmodel.configuration", defaultValue = "jmodel-configuration.xml")
-    private String configurationFile;
+    private String configurationFile = "jmodel-configuration.xml";
 
     @Parameter(property = "jmodel.root-package-dir", defaultValue = "${project.basedir}/src/main/java/")
     private String rootPackageDir;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
+        AtomicReference<Document> jmodelDocument = new AtomicReference<>();
+        AtomicReference<Document> jmodelConfig = new AtomicReference<>();
+
         // TODO check if current generator is in configuration
+        loadModelAndConfiguration(configurationFile, jmodelFileName, jmodelConfig, jmodelDocument);
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File jmodelFile = new File(classLoader.getResource(jmodelFileName).getFile());
-        File jmodelSchemaFile = new File(classLoader.getResource("jmodel.xsd").getFile());
-        Document xmlDocument;
-        try (FileInputStream xmlIS = new FileInputStream(jmodelFile);
-             FileInputStream xmlISbis = new FileInputStream(jmodelFile);
-             FileInputStream xsdIS = new FileInputStream(jmodelSchemaFile)) {
-            validateAgainstXSD(xmlIS, xsdIS);
-
-            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            xmlDocument = builder.parse(xmlISbis);
-            xmlDocument.normalizeDocument();
-        } catch (Exception e) {
-            throw new MojoFailureException("Exception while trying to validate model file.", e);
-        }
+        try {
+            String destinationPackage =
+                XmlUtil.getXmlValue(jmodelConfig.get(),
+                        "jmodel-configuration/generators/java-generator/destination-package");
+        validateDestinationPackage(destinationPackage);
 
 
         JavaModelGenerator generator =
-                new JavaModelGenerator("com.jmodel.generated" /* TODO parametric */, xmlDocument, rootPackageDir);
-        try {
+                new JavaModelGenerator(destinationPackage, jmodelDocument.get(), rootPackageDir);
             generator.generateSources();
         } catch (Exception e) {
-            throw new MojoFailureException("Exception while generating sources.", e);
+            throw new MojoExecutionException("Exception while generating sources.", e);
         }
 
     }
 
-    private static void validateAgainstXSD(InputStream xml, InputStream xsd) throws SAXException, IOException {
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = factory.newSchema(new StreamSource(xsd));
-        Validator validator = schema.newValidator();
-        validator.validate(new StreamSource(xml));
+    private void validateDestinationPackage(String destinationPackage) throws ValidationException {
+        if (destinationPackage == null) {
+            throw new ValidationException("'destination-package' is mandatory.");
+        }
+        String pattern = "^(?!\\.)[a-z\\.]*[a-z]$";
+        if (!destinationPackage.matches(pattern)) {
+            throw new ValidationException("destination-package", pattern);
+        }
+    }
+
+    @Override
+    boolean isGeneratorEnabled(Document jmodelConfigDocument) throws MojoFailureException {
+        return XmlUtil.getXmlValue(jmodelConfigDocument,
+                "jmodel-configuration/generators/java-generator") != null;
     }
 
     public String getJmodelFileName() {

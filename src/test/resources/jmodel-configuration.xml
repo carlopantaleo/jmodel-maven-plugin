@@ -6,7 +6,7 @@
 
     <generators>
         <java-generator>
-            <destination-package>com.carlopantaleo.generated</destination-package>
+            <destination-package>com.jmodel.generated</destination-package>
         </java-generator>
     </generators>
 

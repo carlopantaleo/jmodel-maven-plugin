@@ -1,5 +1,7 @@
 # JModel Maven Plugin
 
+[![Build Status](https://travis-ci.org/carlopantaleo/jmodel-maven-plugin.svg?branch=master)](https://travis-ci.org/carlopantaleo/jmodel-maven-plugin)
+
 A Maven plugin to autogenerate a bunch of boilerplate code starting from a data model described in an XML file.
 
 It generates:

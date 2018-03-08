@@ -4,7 +4,13 @@ jdk:
   - oraclejdk8
   - openjdk8
   - oraclejdk9
-  - openjdk9
+
+matrix:
+    include:
+      - os: linux
+        dist: trusty
+      - os: linux
+        dist: precise
 
 install: mvn install -Dgpg.skip
 script: mvn clean compile test

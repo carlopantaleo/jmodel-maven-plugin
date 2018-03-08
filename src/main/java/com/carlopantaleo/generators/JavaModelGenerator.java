@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
+import org.apache.maven.plugin.MojoFailureException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -18,8 +19,10 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -194,13 +197,25 @@ public class JavaModelGenerator {
     }
 
     private void writeTableJavaFile(Table table) throws Exception {
-        try (FileOutputStream fos = new FileOutputStream(rootPackageDir + "/src/main/java/" +
-                destinationPackage.replace('.', '/') + "/" +
+        try (FileOutputStream fos = new FileOutputStream(makeDestinationPath() +
                 SnakeCaseToCamelcase.toCamelCaseCapital(table.getName()) + ".java")) {
 
             String source = makeSource(table);
             fos.write(source.getBytes("UTF8"));
         }
+    }
+
+    private String makeDestinationPath() throws MojoFailureException {
+        String destinationPath =
+                rootPackageDir + "/src/main/java/" + destinationPackage.replace('.', '/') + "/";
+
+        try {
+            Files.createDirectories(new File(destinationPath).toPath());
+        } catch (Exception e) {
+            throw new MojoFailureException("Unable to create directory tree " + destinationPath, e);
+        }
+
+        return destinationPath;
     }
 
     private void writeEnumJavaFile(Enum theEnum) throws Exception {

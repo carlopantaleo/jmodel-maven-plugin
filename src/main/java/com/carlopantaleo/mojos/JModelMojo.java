@@ -28,12 +28,18 @@ public abstract class JModelMojo extends AbstractMojo {
         ClassLoader classLoader = getClass().getClassLoader();
 
         File jmodelConfigFile = getFile(configurationFileName);
-        File jmodelConfigSchemaFile = new File(classLoader.getResource(JMODEL_CONFIGURATION_XSD).getFile());
-        jmodelConfigDocument.set(getDocument(jmodelConfigFile, jmodelConfigSchemaFile));
+        try (InputStream jmodelConfigSchemaFile = classLoader.getResourceAsStream(JMODEL_CONFIGURATION_XSD)) {
+            jmodelConfigDocument.set(getDocument(jmodelConfigFile, jmodelConfigSchemaFile));
+        } catch (IOException e) {
+            throw new MojoFailureException("IOException while opening config schema file.", e);
+        }
 
         File jmodelFile = getFile(jmodelFileName);
-        File jmodelSchemaFile = new File(classLoader.getResource(JMODEL_XSD).getFile());
-        jmodelDocument.set(getDocument(jmodelFile, jmodelSchemaFile));
+        try (InputStream jmodelSchemaFile = classLoader.getResourceAsStream(JMODEL_XSD)) {
+            jmodelDocument.set(getDocument(jmodelFile, jmodelSchemaFile));
+        } catch (IOException e) {
+            throw new MojoFailureException("IOException while opening model schema file.", e);
+        }
     }
 
     abstract boolean isGeneratorEnabled(Document jmodelConfigDocument) throws MojoFailureException;
@@ -56,11 +62,10 @@ public abstract class JModelMojo extends AbstractMojo {
         return file;
     }
 
-    private Document getDocument(File xmlFile, File xsdFile) throws MojoFailureException {
+    private Document getDocument(File xmlFile, InputStream xsdIS) throws MojoFailureException {
         Document xmlDocument;
         try (FileInputStream xmlIS = new FileInputStream(xmlFile);
-             FileInputStream xmlISbis = new FileInputStream(xmlFile);
-             FileInputStream xsdIS = new FileInputStream(xsdFile)) {
+             FileInputStream xmlISbis = new FileInputStream(xmlFile)) {
             validateAgainstXSD(xmlIS, xsdIS);
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();

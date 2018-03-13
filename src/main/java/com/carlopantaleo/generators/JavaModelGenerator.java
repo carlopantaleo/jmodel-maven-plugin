@@ -54,7 +54,6 @@ public class JavaModelGenerator {
         for (Enum theEnum : extractEnumsAndItems()) {
             writeEnumJavaFile(theEnum);
         }
-
     }
 
     private List<Table> extractTablesAndFields() throws XPathExpressionException, ValidationException {

@@ -3,57 +3,55 @@ package com.carlopantaleo.mojos;
 import com.carlopantaleo.exceptions.ValidationException;
 import com.carlopantaleo.generators.JavaModelGenerator;
 import com.carlopantaleo.utils.XmlUtil;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This Mojo generates standard Java classes from jmodel.xml.
  */
 @Mojo(name = "generate-java-model", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "generate-java-model", phase = LifecyclePhase.GENERATE_SOURCES)
 public class GenerateJavaModelMojo extends JModelMojo {
-    @Parameter(property = "jmodel.model", defaultValue = "jmodel.xml")
+    @Parameter(defaultValue = "jmodel.xml")
     private String jmodelFileName = "jmodel.xml";
 
-    @Parameter(property = "jmodel.configuration", defaultValue = "jmodel-configuration.xml")
-    private String configurationFile = "jmodel-configuration.xml";
+    @Parameter(defaultValue = "jmodel-configuration.xml")
+    private String configurationFileName = "jmodel-configuration.xml";
 
-    @Parameter(property = "jmodel.root-package-dir", defaultValue = "${project.basedir}/src/main/java/")
-    private String rootPackageDir;
+    @Parameter(defaultValue = "${project.basedir}")
+    private String projectDir = System.getProperty("user.dir");
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         AtomicReference<Document> jmodelDocument = new AtomicReference<>();
-        AtomicReference<Document> jmodelConfig = new AtomicReference<>();
+        AtomicReference<Document> jmodelConfigDocument = new AtomicReference<>();
 
-        // TODO check if current generator is in configuration
-        loadModelAndConfiguration(configurationFile, jmodelFileName, jmodelConfig, jmodelDocument);
+        try {
+            loadModelAndConfiguration(configurationFileName, jmodelFileName, jmodelConfigDocument, jmodelDocument);
+        } catch (FileNotFoundException e) {
+            throw new MojoFailureException("FileNotFoundException while loading jModel configuration.", e);
+        }
+
+        if (!isGeneratorEnabled(jmodelConfigDocument.get())) {
+            // Proceed no further, this generator is not enabled.
+            return;
+        }
 
         try {
             String destinationPackage =
-                XmlUtil.getXmlValue(jmodelConfig.get(),
+                XmlUtil.getXmlValue(jmodelConfigDocument.get(),
                         "jmodel-configuration/generators/java-generator/destination-package");
         validateDestinationPackage(destinationPackage);
 
-
         JavaModelGenerator generator =
-                new JavaModelGenerator(destinationPackage, jmodelDocument.get(), rootPackageDir);
+                new JavaModelGenerator(destinationPackage, jmodelDocument.get(), projectDir);
             generator.generateSources();
         } catch (Exception e) {
             throw new MojoExecutionException("Exception while generating sources.", e);
@@ -85,19 +83,19 @@ public class GenerateJavaModelMojo extends JModelMojo {
         this.jmodelFileName = jmodelFileName;
     }
 
-    public String getConfigurationFile() {
-        return configurationFile;
+    public String getConfigurationFileName() {
+        return configurationFileName;
     }
 
-    public void setConfigurationFile(String configurationFile) {
-        this.configurationFile = configurationFile;
+    public void setConfigurationFileName(String configurationFileName) {
+        this.configurationFileName = configurationFileName;
     }
 
-    public String getRootPackageDir() {
-        return rootPackageDir;
+    public String getProjectDir() {
+        return projectDir;
     }
 
-    public void setRootPackageDir(String rootPackageDir) {
-        this.rootPackageDir = rootPackageDir;
+    public void setProjectDir(String projectDir) {
+        this.projectDir = projectDir;
     }
 }

@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GenerateJavaModelMojoTest {
     private final String generatedDir = System.getProperty("user.dir") + "/src/main/java/com/jmodel/generated/";
@@ -63,10 +64,25 @@ public class GenerateJavaModelMojoTest {
         assertEquals("ITEM2", lines.get(4).trim());
     }
 
+    @Test
+    public void nonExistentInputFileComplainsGracefully() {
+        GenerateJavaModelMojo generateJavaModelMojo = new GenerateJavaModelMojo();
+        generateJavaModelMojo.setJmodelFileName("/my/non/existent/path/jmodel.xml");
+        generateJavaModelMojo.setProjectDir(System.getProperty("user.dir"));
+
+        try {
+            generateJavaModelMojo.execute();
+        } catch (MojoExecutionException e) {
+            assertTrue(false); // Should never happen
+        } catch (MojoFailureException e) {
+            assertEquals("FileNotFoundException while loading jModel configuration.", e.getMessage());
+        }
+    }
+
     private void execute() throws MojoExecutionException, MojoFailureException {
         GenerateJavaModelMojo generateJavaModelMojo = new GenerateJavaModelMojo();
         generateJavaModelMojo.setJmodelFileName("jmodel.xml");
-        generateJavaModelMojo.setRootPackageDir(System.getProperty("user.dir"));
+        generateJavaModelMojo.setProjectDir(System.getProperty("user.dir"));
         generateJavaModelMojo.execute();
     }
 }

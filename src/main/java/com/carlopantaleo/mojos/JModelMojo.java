@@ -1,6 +1,5 @@
 package com.carlopantaleo.mojos;
 
-import com.carlopantaleo.utils.XmlUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.w3c.dom.Document;
@@ -13,10 +12,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class JModelMojo extends AbstractMojo {
@@ -27,23 +24,37 @@ public abstract class JModelMojo extends AbstractMojo {
                                              String jmodelFileName,
                                              AtomicReference<Document> jmodelConfigDocument,
                                              AtomicReference<Document> jmodelDocument)
-            throws MojoFailureException {
+            throws MojoFailureException, FileNotFoundException {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        File jmodelConfigFile = new File(classLoader.getResource(configurationFileName).getFile());
+        File jmodelConfigFile = getFile(configurationFileName);
         File jmodelConfigSchemaFile = new File(classLoader.getResource(JMODEL_CONFIGURATION_XSD).getFile());
         jmodelConfigDocument.set(getDocument(jmodelConfigFile, jmodelConfigSchemaFile));
 
-        if (!isGeneratorEnabled(jmodelConfigDocument.get())) {
-            return;
-        }
-
-        File jmodelFile = new File(classLoader.getResource(jmodelFileName).getFile());
+        File jmodelFile = getFile(jmodelFileName);
         File jmodelSchemaFile = new File(classLoader.getResource(JMODEL_XSD).getFile());
         jmodelDocument.set(getDocument(jmodelFile, jmodelSchemaFile));
     }
 
     abstract boolean isGeneratorEnabled(Document jmodelConfigDocument) throws MojoFailureException;
+
+    private File getFile(String fileName) throws FileNotFoundException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file;
+
+        URL url = classLoader.getResource(fileName);
+        if (url == null) {
+            file = new File(fileName);
+        } else {
+            file = new File(url.getFile());
+        }
+
+        if (!file.exists()) {
+            throw new FileNotFoundException("File " + fileName + " not found.");
+        }
+
+        return file;
+    }
 
     private Document getDocument(File xmlFile, File xsdFile) throws MojoFailureException {
         Document xmlDocument;

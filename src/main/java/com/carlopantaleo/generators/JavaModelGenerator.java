@@ -36,12 +36,12 @@ public class JavaModelGenerator {
     private final XPath xPath = XPathFactory.newInstance().newXPath();
     private String destinationPackage;
     private Document model;
-    private String rootPackageDir;
+    private String projectDir;
 
-    public JavaModelGenerator(String destinationPackage, Document model, String rootPackageDir) {
+    public JavaModelGenerator(String destinationPackage, Document model, String projectDir) {
         this.destinationPackage = destinationPackage;
         this.model = model;
-        this.rootPackageDir = rootPackageDir;
+        this.projectDir = projectDir;
     }
 
     public void generateSources() throws Exception {
@@ -207,7 +207,7 @@ public class JavaModelGenerator {
 
     private String makeDestinationPath() throws MojoFailureException {
         String destinationPath =
-                rootPackageDir + "/src/main/java/" + destinationPackage.replace('.', '/') + "/";
+                projectDir + "/src/main/java/" + destinationPackage.replace('.', '/') + "/";
 
         try {
             Files.createDirectories(new File(destinationPath).toPath());
@@ -219,7 +219,7 @@ public class JavaModelGenerator {
     }
 
     private void writeEnumJavaFile(Enum theEnum) throws Exception {
-        try (FileOutputStream fos = new FileOutputStream(rootPackageDir + "/src/main/java/" +
+        try (FileOutputStream fos = new FileOutputStream(projectDir + "/src/main/java/" +
                 destinationPackage.replace('.', '/') + "/" +
                 SnakeCaseToCamelcase.toCamelCaseCapital(theEnum.getName()) + ".java")) {
 

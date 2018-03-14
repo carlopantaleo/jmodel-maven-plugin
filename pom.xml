@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.carlopantaleo</groupId>
-    <artifactId>jmodel-parent</artifactId>
+    <artifactId>jmodel</artifactId>
     <version>1.0.0-RELEASE</version>
     <packaging>pom</packaging>
 
-    <name>JModel Maven Plugin - Parent Project</name>
+    <name>JModel</name>
 
     <modules>
         <module>jmodel-maven-plugin</module>
@@ -19,6 +19,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.boot.maven.plugin.version>2.0.0.RELEASE</spring.boot.maven.plugin.version>
         <spring.boot.starter.web.version>2.0.0.RELEASE</spring.boot.starter.web.version>
         <spring.boot.starter.test.version>2.0.0.RELEASE</spring.boot.starter.test.version>
         <spring.boot.starter.actuator.version>2.0.0.RELEASE</spring.boot.starter.actuator.version>

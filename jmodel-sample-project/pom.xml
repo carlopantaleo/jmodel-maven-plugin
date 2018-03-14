@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>com.carlopantaleo</groupId>
-        <artifactId>jmodel-parent</artifactId>
+        <artifactId>jmodel</artifactId>
         <version>1.0.0-RELEASE</version>
     </parent>
 
@@ -84,6 +84,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.maven.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

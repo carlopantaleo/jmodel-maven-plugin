@@ -32,14 +32,9 @@ public class GenerateJavaModelMojo extends JModelMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         AtomicReference<Document> jmodelDocument = new AtomicReference<>();
         AtomicReference<Document> jmodelConfigDocument = new AtomicReference<>();
+        setupMojo(jmodelConfigDocument, jmodelDocument, configurationFileName, jmodelFileName);
 
-        try {
-            loadModelAndConfiguration(configurationFileName, jmodelFileName, jmodelConfigDocument, jmodelDocument);
-        } catch (FileNotFoundException e) {
-            throw new MojoFailureException("FileNotFoundException while loading jModel configuration.", e);
-        }
-
-        if (!isGeneratorEnabled(jmodelConfigDocument.get())) {
+        if (!isGeneratorEnabled(jmodelConfigDocument.get(), "java-generator")) {
             // Proceed no further, this generator is not enabled.
             return;
         }
@@ -67,12 +62,6 @@ public class GenerateJavaModelMojo extends JModelMojo {
         if (!destinationPackage.matches(pattern)) {
             throw new ValidationException("destination-package", pattern);
         }
-    }
-
-    @Override
-    boolean isGeneratorEnabled(Document jmodelConfigDocument) throws MojoFailureException {
-        return XmlUtil.getXmlValue(jmodelConfigDocument,
-                "jmodel-configuration/generators/java-generator") != null;
     }
 
     public String getJmodelFileName() {

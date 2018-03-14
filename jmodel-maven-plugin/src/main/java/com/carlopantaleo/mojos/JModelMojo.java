@@ -1,5 +1,6 @@
 package com.carlopantaleo.mojos;
 
+import com.carlopantaleo.utils.XmlUtil;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.w3c.dom.Document;
@@ -20,7 +21,19 @@ public abstract class JModelMojo extends AbstractMojo {
     private static final String JMODEL_XSD = "jmodel.xsd";
     private static final String JMODEL_CONFIGURATION_XSD = "jmodel-configuration.xsd";
 
-    protected void loadModelAndConfiguration(String configurationFileName,
+    protected void setupMojo(AtomicReference<Document> jmodelConfigDocument,
+                             AtomicReference<Document> jmodelDocument,
+                             String configurationFileName,
+                             String jmodelFileName)
+            throws MojoFailureException {
+        try {
+            loadModelAndConfiguration(configurationFileName, jmodelFileName, jmodelConfigDocument, jmodelDocument);
+        } catch (FileNotFoundException e) {
+            throw new MojoFailureException("FileNotFoundException while loading jModel configuration.", e);
+        }
+    }
+
+    private void loadModelAndConfiguration(String configurationFileName,
                                              String jmodelFileName,
                                              AtomicReference<Document> jmodelConfigDocument,
                                              AtomicReference<Document> jmodelDocument)
@@ -42,7 +55,11 @@ public abstract class JModelMojo extends AbstractMojo {
         }
     }
 
-    abstract boolean isGeneratorEnabled(Document jmodelConfigDocument) throws MojoFailureException;
+    protected boolean isGeneratorEnabled(Document jmodelConfigDocument, String generatorName)
+            throws MojoFailureException {
+        return XmlUtil.getXmlValue(jmodelConfigDocument,
+                "jmodel-configuration/generators/" + generatorName) != null;
+    }
 
     private File getFile(String fileName) throws FileNotFoundException {
         ClassLoader classLoader = getClass().getClassLoader();

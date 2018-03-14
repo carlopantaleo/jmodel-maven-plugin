@@ -1,4 +1,4 @@
 .idea
 target
 *.iml
-/src/main/java/com/jmodel
+*com/jmodel/generated*

@@ -18,6 +18,8 @@
     <url>http://maven.apache.org</url>
 
     <properties>
+        <java.source.version>1.8</java.source.version>
+        <java.target.version>1.8</java.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.boot.maven.plugin.version>2.0.0.RELEASE</spring.boot.maven.plugin.version>
         <spring.boot.starter.web.version>2.0.0.RELEASE</spring.boot.starter.web.version>

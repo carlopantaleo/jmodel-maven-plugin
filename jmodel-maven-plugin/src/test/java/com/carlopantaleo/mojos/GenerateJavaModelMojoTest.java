@@ -1,11 +1,14 @@
 package com.carlopantaleo.mojos;
 
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,13 +18,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GenerateJavaModelMojoTest {
-    private final String generatedDir = System.getProperty("user.dir") + "/src/main/java/com/jmodel/generated/";
+    private static final String GENERATED_DIR = System.getProperty("user.dir") + "/src/main/java/com/jmodel/generated/";
+    private static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/main/java/com/jmodel";
+
+    @After
+    public void clean() throws IOException {
+        FileUtils.deleteDirectory(new File(OUTPUT_DIR));
+    }
 
     @Test
     public void testTableIsGeneratedCorrectly() throws Exception {
         execute();
 
-        Path path = new File(generatedDir + "TestTable.java").toPath();
+        Path path = new File(GENERATED_DIR + "TestTable.java").toPath();
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
         assertEquals(79, lines.size());
         assertEquals("private String primaryKey;", lines.get(6).trim());
@@ -55,7 +64,7 @@ public class GenerateJavaModelMojoTest {
     public void testEnumIsGeneratedCorrectly() throws Exception {
         execute();
 
-        Path path = new File(generatedDir + "TestEnum.java").toPath();
+        Path path = new File(GENERATED_DIR + "TestEnum.java").toPath();
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
 
         assertEquals(6, lines.size());
@@ -77,6 +86,19 @@ public class GenerateJavaModelMojoTest {
         } catch (MojoFailureException e) {
             assertEquals("FileNotFoundException while loading jModel configuration.", e.getMessage());
         }
+    }
+
+    @Test
+    public void anythingGeneratedIfGeneratorNotSpecified() throws Exception {
+        GenerateJavaModelMojo generateJavaModelMojo = new GenerateJavaModelMojo();
+        generateJavaModelMojo.setJmodelFileName("jmodel.xml");
+        generateJavaModelMojo.setConfigurationFileName("jmodel-configuration-no-javamodel.xml");
+        generateJavaModelMojo.setProjectDir(System.getProperty("user.dir"));
+        generateJavaModelMojo.execute();
+
+        File dir = new File(OUTPUT_DIR);
+        assertTrue(!dir.exists());
+
     }
 
     private void execute() throws MojoExecutionException, MojoFailureException {

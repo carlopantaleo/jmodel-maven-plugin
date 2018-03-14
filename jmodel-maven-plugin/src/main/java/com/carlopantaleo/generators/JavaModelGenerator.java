@@ -34,7 +34,6 @@ public class JavaModelGenerator {
             "java.math.BigDecimal"
     );
 
-    private final XPath xPath = XPathFactory.newInstance().newXPath();
     private String destinationPackage;
     private Document model;
     private String projectDir;

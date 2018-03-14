@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Mojo(name = "generate-java-model", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate-java-model", phase = LifecyclePhase.GENERATE_SOURCES)
-public class GenerateJavaModelMojo extends JModelMojo {
+public class GenerateJavaModelMojo extends GenerateJavaCodeMojo {
     @Parameter(defaultValue = "jmodel.xml")
     private String jmodelFileName = "jmodel.xml";
 
@@ -41,25 +41,15 @@ public class GenerateJavaModelMojo extends JModelMojo {
 
         try {
             String destinationPackage =
-                XmlUtil.getXmlValue(jmodelConfigDocument.get(),
-                        "jmodel-configuration/generators/java-generator/destination-package");
-        validateDestinationPackage(destinationPackage);
+                    XmlUtil.getXmlValue(jmodelConfigDocument.get(),
+                            "jmodel-configuration/generators/java-generator/destination-package");
+            validateDestinationPackage(destinationPackage);
 
-        JavaModelGenerator generator =
-                new JavaModelGenerator(destinationPackage, jmodelDocument.get(), projectDir);
+            JavaModelGenerator generator =
+                    new JavaModelGenerator(destinationPackage, jmodelDocument.get(), projectDir);
             generator.generateSources();
         } catch (Exception e) {
             throw new MojoExecutionException("Exception while generating sources.", e);
-        }
-    }
-
-    private void validateDestinationPackage(String destinationPackage) throws ValidationException {
-        if (destinationPackage == null) {
-            throw new ValidationException("'destination-package' is mandatory.");
-        }
-        String pattern = "^(?!\\.)[a-z\\.]*[a-z]$";
-        if (!destinationPackage.matches(pattern)) {
-            throw new ValidationException("destination-package", pattern);
         }
     }
 

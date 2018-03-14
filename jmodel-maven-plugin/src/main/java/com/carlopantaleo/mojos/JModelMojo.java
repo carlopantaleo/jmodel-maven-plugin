@@ -26,7 +26,7 @@ public abstract class JModelMojo extends AbstractMojo {
 
     private List<String> prerequisites = new ArrayList<>();
 
-    protected void setupMojo(AtomicReference<Document> jmodelConfigDocument,
+    protected final void setupMojo(AtomicReference<Document> jmodelConfigDocument,
                              AtomicReference<Document> jmodelDocument,
                              String configurationFileName,
                              String jmodelFileName)
@@ -38,7 +38,7 @@ public abstract class JModelMojo extends AbstractMojo {
         }
     }
 
-    protected void prerequisites(String... generators) {
+    protected final void prerequisites(String... generators) {
         prerequisites = Arrays.asList(generators);
     }
 
@@ -64,7 +64,7 @@ public abstract class JModelMojo extends AbstractMojo {
         }
     }
 
-    protected boolean isGeneratorEnabled(Document jmodelConfigDocument, String generatorName)
+    protected final boolean isGeneratorEnabled(Document jmodelConfigDocument, String generatorName)
             throws MojoFailureException {
         for (String prerequisite : prerequisites) {
             String got = XmlUtil.getXmlValue(jmodelConfigDocument,

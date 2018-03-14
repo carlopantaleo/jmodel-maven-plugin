@@ -73,34 +73,6 @@ public class GenerateJavaModelMojoTest {
         assertEquals("ITEM2", lines.get(4).trim());
     }
 
-    @Test
-    public void nonExistentInputFileComplainsGracefully() {
-        GenerateJavaModelMojo generateJavaModelMojo = new GenerateJavaModelMojo();
-        generateJavaModelMojo.setJmodelFileName("/my/non/existent/path/jmodel.xml");
-        generateJavaModelMojo.setProjectDir(System.getProperty("user.dir"));
-
-        try {
-            generateJavaModelMojo.execute();
-        } catch (MojoExecutionException e) {
-            assertTrue(false); // Should never happen
-        } catch (MojoFailureException e) {
-            assertEquals("FileNotFoundException while loading jModel configuration.", e.getMessage());
-        }
-    }
-
-    @Test
-    public void anythingGeneratedIfGeneratorNotSpecified() throws Exception {
-        GenerateJavaModelMojo generateJavaModelMojo = new GenerateJavaModelMojo();
-        generateJavaModelMojo.setJmodelFileName("jmodel.xml");
-        generateJavaModelMojo.setConfigurationFileName("jmodel-configuration-no-javamodel.xml");
-        generateJavaModelMojo.setProjectDir(System.getProperty("user.dir"));
-        generateJavaModelMojo.execute();
-
-        File dir = new File(OUTPUT_DIR);
-        assertTrue(!dir.exists());
-
-    }
-
     private void execute() throws MojoExecutionException, MojoFailureException {
         GenerateJavaModelMojo generateJavaModelMojo = new GenerateJavaModelMojo();
         generateJavaModelMojo.setJmodelFileName("jmodel.xml");

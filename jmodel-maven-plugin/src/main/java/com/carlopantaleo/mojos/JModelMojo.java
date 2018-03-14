@@ -15,11 +15,16 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class JModelMojo extends AbstractMojo {
     private static final String JMODEL_XSD = "jmodel.xsd";
     private static final String JMODEL_CONFIGURATION_XSD = "jmodel-configuration.xsd";
+
+    private List<String> prerequisites = new ArrayList<>();
 
     protected void setupMojo(AtomicReference<Document> jmodelConfigDocument,
                              AtomicReference<Document> jmodelDocument,
@@ -33,10 +38,14 @@ public abstract class JModelMojo extends AbstractMojo {
         }
     }
 
+    protected void prerequisites(String... generators) {
+        prerequisites = Arrays.asList(generators);
+    }
+
     private void loadModelAndConfiguration(String configurationFileName,
-                                             String jmodelFileName,
-                                             AtomicReference<Document> jmodelConfigDocument,
-                                             AtomicReference<Document> jmodelDocument)
+                                           String jmodelFileName,
+                                           AtomicReference<Document> jmodelConfigDocument,
+                                           AtomicReference<Document> jmodelDocument)
             throws MojoFailureException, FileNotFoundException {
         ClassLoader classLoader = getClass().getClassLoader();
 
@@ -57,10 +66,27 @@ public abstract class JModelMojo extends AbstractMojo {
 
     protected boolean isGeneratorEnabled(Document jmodelConfigDocument, String generatorName)
             throws MojoFailureException {
+        for (String prerequisite : prerequisites) {
+            String got = XmlUtil.getXmlValue(jmodelConfigDocument,
+                    "jmodel-configuration/generators/" + prerequisite);
+            if (got == null) {
+                throw new MojoFailureException(
+                        String.format("Generator '%s' must be enabled in order to use the '%s' generator.",
+                                prerequisite, generatorName));
+            }
+        }
+
         return XmlUtil.getXmlValue(jmodelConfigDocument,
                 "jmodel-configuration/generators/" + generatorName) != null;
     }
 
+    /**
+     * Tries to get the file passed in {@code fileName} firstly as a resource, then as a regular file.
+     *
+     * @param fileName the file name.
+     * @return
+     * @throws FileNotFoundException if the file cannot be found.
+     */
     private File getFile(String fileName) throws FileNotFoundException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file;

@@ -51,7 +51,6 @@ public class GenerateJavaModelMojo extends JModelMojo {
         } catch (Exception e) {
             throw new MojoExecutionException("Exception while generating sources.", e);
         }
-
     }
 
     private void validateDestinationPackage(String destinationPackage) throws ValidationException {

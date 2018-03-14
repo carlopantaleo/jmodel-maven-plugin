@@ -11,10 +11,18 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:element name="mybatis-generator">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="destination-package"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="generators">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="java-generator" minOccurs="0"/>
+                <xs:element ref="mybatis-generator" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

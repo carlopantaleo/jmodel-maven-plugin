@@ -8,6 +8,10 @@
         <java-generator>
             <destination-package>com.jmodel.generated</destination-package>
         </java-generator>
+        <hbm-generator>
+            <destination-dao-package>com.jmodel.dao.generated</destination-dao-package>
+            <destination-hbm-dir>hbm</destination-hbm-dir>
+        </hbm-generator>
     </generators>
 
 </jmodel-configuration>

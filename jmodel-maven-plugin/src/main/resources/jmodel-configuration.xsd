@@ -1,20 +1,37 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
            targetNamespace="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0"
            xmlns="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0">
-    <xs:element name="enum" type="xs:string"/>
-    <xs:element name="table" type="xs:string"/>
-    <xs:element name="destination-package" type="xs:string"/>
     <xs:element name="java-generator">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="destination-package"/>
+                <xs:element name="destination-package" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Destination package for Java classes.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <xs:element name="mybatis-generator">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="destination-package"/>
+                <xs:element name="destination-package" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="hbm-generator">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="destination-dao-package" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Destination package for DAO classes.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="destination-hbm-dir" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Destination directory for .hbm.xml mapping files.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -23,6 +40,7 @@
             <xs:sequence>
                 <xs:element ref="java-generator" minOccurs="0"/>
                 <xs:element ref="mybatis-generator" minOccurs="0"/>
+                <xs:element ref="hbm-generator" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

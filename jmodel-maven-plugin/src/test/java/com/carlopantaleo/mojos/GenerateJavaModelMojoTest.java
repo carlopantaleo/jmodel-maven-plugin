@@ -32,32 +32,42 @@ public class GenerateJavaModelMojoTest {
 
         Path path = new File(GENERATED_DIR + "TestTable.java").toPath();
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
-        assertEquals(79, lines.size());
-        assertEquals("private String primaryKey;", lines.get(6).trim());
-        assertEquals("private @Nullable String secondField;", lines.get(7).trim());
-        assertEquals("private String thirdField;", lines.get(8).trim());
-        assertEquals("private BigDecimal numberField;", lines.get(9).trim());
-        assertEquals("private double doubleField;", lines.get(10).trim());
-        assertEquals("private float floatField;", lines.get(11).trim());
-        assertEquals("private TestEnum enumField;", lines.get(12).trim());
-        assertEquals("private boolean booleanField;", lines.get(13).trim());
 
-        assertEquals("public String getPrimaryKey() {", lines.get(15).trim());
-        assertEquals("public void setPrimaryKey(String primaryKey) {", lines.get(19).trim());
-        assertEquals("public @Nullable String getSecondField() {", lines.get(23).trim());
-        assertEquals("public void setSecondField(@Nullable String secondField) {", lines.get(27).trim());
-        assertEquals("public String getThirdField() {", lines.get(31).trim());
-        assertEquals("public void setThirdField(String thirdField) {", lines.get(35).trim());
-        assertEquals("public BigDecimal getNumberField() {", lines.get(39).trim());
-        assertEquals("public void setNumberField(BigDecimal numberField) {", lines.get(43).trim());
-        assertEquals("public double getDoubleField() {", lines.get(47).trim());
-        assertEquals("public void setDoubleField(double doubleField) {", lines.get(51).trim());
-        assertEquals("public float getFloatField() {", lines.get(55).trim());
-        assertEquals("public void setFloatField(float floatField) {", lines.get(59).trim());
-        assertEquals("public TestEnum getEnumField() {", lines.get(63).trim());
-        assertEquals("public void setEnumField(TestEnum enumField) {", lines.get(67).trim());
-        assertEquals("public boolean getBooleanField() {", lines.get(71).trim());
-        assertEquals("public void setBooleanField(boolean booleanField) {", lines.get(75).trim());
+        {
+            int start = 7, i = 0;
+            assertEquals(89, lines.size());
+            assertEquals("private String primaryKey;", lines.get(start + i++).trim());
+            assertEquals("private @Nullable String secondField;", lines.get(start + i++).trim());
+            assertEquals("private String thirdField;", lines.get(start + i++).trim());
+            assertEquals("private BigDecimal numberField;", lines.get(start + i++).trim());
+            assertEquals("private double doubleField;", lines.get(start + i++).trim());
+            assertEquals("private float floatField;", lines.get(start + i++).trim());
+            assertEquals("private TestEnum enumField;", lines.get(start + i++).trim());
+            assertEquals("private boolean booleanField;", lines.get(start + i++).trim());
+            assertEquals("private LocalDateTime datetimeField;", lines.get(start + i++).trim());
+        }
+
+        {
+            int start = 17, i = 0;
+            assertEquals("public String getPrimaryKey() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setPrimaryKey(String primaryKey) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public @Nullable String getSecondField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setSecondField(@Nullable String secondField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public String getThirdField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setThirdField(String thirdField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public BigDecimal getNumberField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setNumberField(BigDecimal numberField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public double getDoubleField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setDoubleField(double doubleField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public float getFloatField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setFloatField(float floatField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public TestEnum getEnumField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setEnumField(TestEnum enumField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public boolean getBooleanField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setBooleanField(boolean booleanField) {", lines.get(start + i++ * 4).trim());
+            assertEquals("public LocalDateTime getDatetimeField() {", lines.get(start + i++ * 4).trim());
+            assertEquals("public void setDatetimeField(LocalDateTime datetimeField) {", lines.get(start + i++ * 4).trim());
+        }
     }
 
     @Test

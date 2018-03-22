@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,6 +116,8 @@ public class EntitesExtractor {
                 return Boolean.class;
             case "enum":
                 return Enum.class;
+            case "datetime":
+                return LocalDateTime.class;
             default:
                 return null;
         }

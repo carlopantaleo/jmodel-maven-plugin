@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -44,7 +45,7 @@ public class EntitesExtractorTest {
 
         Table table = tables.get(0);
         List<Field> fields = table.getFields();
-        assertEquals(8, fields.size());
+        assertEquals(9, fields.size());
         assertEquals("PRIMARY_KEY", fields.get(0).getName());
         assertEquals(String.class, fields.get(0).getType());
         assertNull(fields.get(0).getDefaultVal());
@@ -52,6 +53,7 @@ public class EntitesExtractorTest {
         assertEquals(BigDecimal.class, fields.get(3).getType());
         assertEquals(Enum.class, fields.get(6).getType());
         assertEquals("TEST_ENUM", fields.get(6).getReferredEnum());
+        assertEquals(LocalDateTime.class, fields.get(8).getType());
     }
 
     @Test

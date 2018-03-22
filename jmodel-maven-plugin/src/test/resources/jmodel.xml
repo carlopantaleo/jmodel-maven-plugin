@@ -34,6 +34,9 @@
             <field type="boolean">
                 BOOLEAN_FIELD
             </field>
+            <field type="datetime">
+                DATETIME_FIELD
+            </field>
         </fields>
     </table>
 

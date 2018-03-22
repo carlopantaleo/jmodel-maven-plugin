@@ -12,26 +12,17 @@ import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
 import org.apache.maven.plugin.MojoFailureException;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public class JavaModelGenerator {
     private final Set<String> possibleImports = Sets.newHashSet(
             "javax.annotation.Nullable",
-            "java.math.BigDecimal"
+            "java.math.BigDecimal",
+            "java.time.LocalDateTime"
     );
 
     private String destinationPackage;

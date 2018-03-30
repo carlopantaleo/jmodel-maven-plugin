@@ -50,9 +50,10 @@ public class JavaModelGenerator {
     }
 
     private void writeTableJavaFile(Table table) throws Exception {
-        try (FileOutputStream fos = new FileOutputStream(makeDestinationPath() +
-                SnakeCaseToCamelcase.toCamelCaseCapital(table.getName()) + ".java")) {
+        String className = table.getClassName() != null ?
+                table.getClassName() : SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
 
+        try (FileOutputStream fos = new FileOutputStream(makeDestinationPath() + className + ".java")) {
             String source = makeSource(table);
             fos.write(source.getBytes("UTF8"));
         }
@@ -182,8 +183,11 @@ public class JavaModelGenerator {
 
     private void writeHeaderAndFooter(Table table, StringBuilder sb) throws ValidationException {
         StringBuilder sbHead = generateHeading(sb.toString());
+        String className = table.getClassName() != null ?
+                table.getClassName() : SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
+
         sbHead.append("public class ")
-                .append(SnakeCaseToCamelcase.toCamelCaseCapital(table.getName()))
+                .append(className)
                 .append('{');
 
         // Insert heading into main StringBuilder

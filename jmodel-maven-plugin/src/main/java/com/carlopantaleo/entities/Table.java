@@ -1,10 +1,12 @@
 package com.carlopantaleo.entities;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
     private String name;
+    private @Nullable String className;
     private List<Field> fields = new ArrayList<>();
     private List<Field> pk = new ArrayList<>();
 
@@ -39,6 +41,14 @@ public class Table {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public @Nullable String getClassName() {
+        return className;
+    }
+
+    public void setClassName(@Nullable String className) {
+        this.className = className;
     }
 
     public List<Field> getFields() {

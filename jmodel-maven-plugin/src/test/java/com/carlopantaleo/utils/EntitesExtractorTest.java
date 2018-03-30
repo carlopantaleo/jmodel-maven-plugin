@@ -44,6 +44,9 @@ public class EntitesExtractorTest {
         assertEquals(2, tables.size());
 
         Table table = tables.get(0);
+        assertEquals("TEST_TABLE", table.getName());
+        assertEquals("MyTestTable", table.getClassName());
+
         List<Field> fields = table.getFields();
         assertEquals(9, fields.size());
         assertEquals("PRIMARY_KEY", fields.get(0).getName());

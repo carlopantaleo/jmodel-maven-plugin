@@ -16,15 +16,11 @@ public class XmlUtil {
     private static final XPath xPath = XPathFactory.newInstance().newXPath();
 
     public static @Nullable
-    String getXmlValue(Document document, String xpathExpression) throws MojoFailureException {
-        try {
-            Node parent = (Node) xPath
-                    .compile(xpathExpression)
-                    .evaluate(document, XPathConstants.NODE);
+    String getXmlValue(Document document, String xpathExpression) throws XPathExpressionException {
+        Node parent = (Node) xPath
+                .compile(xpathExpression)
+                .evaluate(document, XPathConstants.NODE);
 
-            return parent == null ? null : parent.getFirstChild().getNodeValue().trim();
-        } catch (XPathExpressionException e) {
-            throw new MojoFailureException("Exception while reading XML value.", e);
-        }
+        return parent == null ? null : parent.getFirstChild().getNodeValue().trim();
     }
 }

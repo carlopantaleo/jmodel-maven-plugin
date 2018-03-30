@@ -45,6 +45,8 @@ public class EntitesExtractor {
                     .getAttributes()
                     .getNamedItem("name")
                     .getNodeValue());
+            table.setClassName(XmlUtil.getXmlValue(model,
+                    String.format("jmodel/table[@name='%s']/@class-name", table.getName())));
             tables.add(table);
         }
     }

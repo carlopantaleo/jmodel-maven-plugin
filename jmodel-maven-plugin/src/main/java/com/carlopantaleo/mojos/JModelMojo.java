@@ -13,6 +13,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,18 +67,26 @@ public abstract class JModelMojo extends AbstractMojo {
 
     protected final boolean isGeneratorEnabled(Document jmodelConfigDocument, String generatorName)
             throws MojoFailureException {
-        for (String prerequisite : prerequisites) {
-            String got = XmlUtil.getXmlValue(jmodelConfigDocument,
-                    "jmodel-configuration/generators/" + prerequisite);
-            if (got == null) {
-                throw new MojoFailureException(
-                        String.format("Generator '%s' must be enabled in order to use the '%s' generator.",
-                                prerequisite, generatorName));
+        boolean isGeneratorEnabled;
+
+        try {
+            for (String prerequisite : prerequisites) {
+                String got = XmlUtil.getXmlValue(jmodelConfigDocument,
+                        "jmodel-configuration/generators/" + prerequisite);
+                if (got == null) {
+                    throw new MojoFailureException(
+                            String.format("Generator '%s' must be enabled in order to use the '%s' generator.",
+                                    prerequisite, generatorName));
+                }
             }
+
+            isGeneratorEnabled = XmlUtil.getXmlValue(jmodelConfigDocument,
+                    "jmodel-configuration/generators/" + generatorName) != null;
+        } catch (XPathExpressionException e) {
+            throw new MojoFailureException("Error parsing jmodel-configuration xml.");
         }
 
-        return XmlUtil.getXmlValue(jmodelConfigDocument,
-                "jmodel-configuration/generators/" + generatorName) != null;
+        return isGeneratorEnabled;
     }
 
     /**

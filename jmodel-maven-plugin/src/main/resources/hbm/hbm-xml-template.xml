@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hibernate-mapping package="{{dest-package}}"
+                   xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping
+        http://www.hibernate.org/xsd/hibernate-mapping/hibernate-mapping-4.0.xsd">
+
+    <class name="{{qualified-class-name}}"
+           table="{{table-name}}">
+        <id name="{{pk-field-name}}" type="{{pk-field-type}}">
+            <column name="{{pk-field-column-name}}" />
+            <!-- Generator not yet supported -->
+        </id>
+
+        <!-- repeated-template -->
+        <property name="{{field-name}}" type="{{field-type}}">
+            <column name="{{field-column-name}}" />
+        </property>
+        <!-- /repeated-template -->
+    </class>
+
+</hibernate-mapping>

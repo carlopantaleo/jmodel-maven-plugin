@@ -55,6 +55,7 @@
                     <filesets>
                         <fileset>
                             <directory>src/main/java/com/jmodel</directory>
+                            <directory>src/main/resources/generated</directory>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
                     </filesets>

@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Field {
     private String name;
     private Class type;
-    private int lenght;
+    private int length;
     private boolean nullable = false;
     private String defaultVal;
     private String referredEnum;
@@ -27,12 +27,12 @@ public class Field {
         this.type = type;
     }
 
-    public int getLenght() {
-        return lenght;
+    public int getLength() {
+        return length;
     }
 
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public boolean isNullable() {
@@ -74,7 +74,7 @@ public class Field {
         if (o == null || getClass() != o.getClass())
             return false;
         Field field = (Field) o;
-        return lenght == field.lenght &&
+        return length == field.length &&
                 nullable == field.nullable &&
                 pk == field.pk &&
                 Objects.equals(name, field.name) &&
@@ -85,7 +85,7 @@ public class Field {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, lenght, nullable, defaultVal, referredEnum, pk);
+        return Objects.hash(name, type, length, nullable, defaultVal, referredEnum, pk);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Field {
         return "Field{" +
                 "name='" + name + '\'' +
                 ", type=" + type +
-                ", lenght=" + lenght +
+                ", length=" + length +
                 ", nullable=" + nullable +
                 ", defaultVal='" + defaultVal + '\'' +
                 ", referredEnum='" + referredEnum + '\'' +

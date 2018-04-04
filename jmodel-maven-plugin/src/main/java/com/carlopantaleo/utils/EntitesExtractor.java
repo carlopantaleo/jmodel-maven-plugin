@@ -96,7 +96,7 @@ public class EntitesExtractor {
         }
         field.setDefaultVal(defaultVal);
         field.setNullable(nullable);
-        field.setLenght(length);
+        field.setLength(length);
         field.setPk(pk);
 
         return field;

@@ -10,11 +10,12 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static org.junit.Assert.*;
 
 public class HibernateMappingsGeneratorTest {
-    private static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/main/resources/generated";
+    private static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/main/resources/generated/";
 
     @After
     public void clean() throws IOException {
@@ -24,6 +25,28 @@ public class HibernateMappingsGeneratorTest {
     @Test
     public void sourcesAreGenerated() throws Exception {
         execute();
+
+        String content = new String(Files.readAllBytes(new File(OUTPUT_DIR + "MyTestTable.hbm.xml").toPath()));
+        assertTrue(content.contains(
+                String.format("<id name=\"primaryKey\" column=\"PRIMARY_KEY\">%n" +
+                "            <type name=\"java.lang.String\">%n" +
+                "                <!-- no params -->%n" +
+                "            </type>%n" +
+                "            <!-- Generator not yet supported -->%n" +
+                "        </id>")));
+        assertTrue(content.contains(
+                String.format("<property name=\"enumField\" column=\"ENUM_FIELD\">%n" +
+                "            <type name=\"org.hibernate.type.EnumType\">%n" +
+                "                <param name=\"enumClass\">com.jmodel.generated.TestEnum</param>%n" +
+                "            </type>%n" +
+                "        </property>")));
+        assertTrue(content.contains(
+                String.format("<property name=\"datetimeField\" column=\"DATETIME_FIELD\">%n" +
+                "            <type name=\"java.time.LocalDateTime\">%n" +
+                "                <!-- no params -->%n" +
+                "            </type>%n" +
+                "        </property>")));
+
     }
 
     private void execute() throws MojoExecutionException, MojoFailureException {

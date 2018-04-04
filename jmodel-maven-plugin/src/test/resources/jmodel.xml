@@ -42,7 +42,9 @@
 
     <table name="ANOTHER_TABLE">
         <fields>
-            <field type="string">ANOTHER_FIELD</field>
+            <field type="string" pk="true">
+                ANOTHER_FIELD
+            </field>
         </fields>
     </table>
 </jmodel>

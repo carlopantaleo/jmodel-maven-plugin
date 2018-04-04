@@ -1,7 +1,6 @@
 package com.carlopantaleo.mojos;
 
 import com.carlopantaleo.generators.HibernateMappingsGenerator;
-import com.carlopantaleo.generators.JavaModelGenerator;
 import com.carlopantaleo.utils.XmlUtil;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -41,16 +40,20 @@ public class GenerateHibernateMappingsMojo extends GenerateJavaCodeMojo {
         try {
             String destinationPackage =
                     XmlUtil.getXmlValue(jmodelConfigDocument.get(),
-                            "jmodel-configuration/generators/hbm-generator/destination-package");
+                            "jmodel-configuration/generators/hbm-generator/destination-dao-package");
             validateDestinationPackage(destinationPackage);
+
+            String beansPackage =
+                    XmlUtil.getXmlValue(jmodelConfigDocument.get(),
+                            "jmodel-configuration/generators/java-generator/destination-package");
 
             String destinationResourceDir =
                     XmlUtil.getXmlValue(jmodelConfigDocument.get(),
                             "jmodel-configuration/generators/hbm-generator/destination-hbm-dir");
 
             HibernateMappingsGenerator generator =
-                    new HibernateMappingsGenerator(destinationPackage, destinationResourceDir,
-                            jmodelDocument.get(), projectDir);
+                    new HibernateMappingsGenerator(destinationPackage, beansPackage, destinationResourceDir,
+                            jmodelDocument.get(), projectDir, getLog());
             generator.generateSources();
         } catch (Exception e) {
             throw new MojoExecutionException("Exception while generating sources.", e);

@@ -23,7 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
 public class HibernateMappingsGenerator {
-    private static final String HBM_TEMPLATE = "hbm-xml-template.xml";
+    private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.xml";
 
     private final String destinationDaoPackage;
     private final String beansPackage;

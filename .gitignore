@@ -2,4 +2,4 @@
 target*
 *.iml
 *com/jmodel/generated*
-*resources/hbm/*
+*resources/hbm/generated*

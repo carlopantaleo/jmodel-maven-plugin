@@ -3,13 +3,13 @@ package com.carlopantaleo.mojos;
 import com.carlopantaleo.exceptions.ValidationException;
 
 public abstract class GenerateJavaCodeMojo extends JModelMojo {
-    protected void validateDestinationPackage(String destinationPackage) throws ValidationException {
-        if (destinationPackage == null) {
-            throw new ValidationException("'destination-package' is mandatory.");
+    protected void validatePackage(String thePackage, String propertyName) throws ValidationException {
+        if (thePackage == null) {
+            throw new ValidationException(String.format("'%s' is mandatory.", propertyName));
         }
         String pattern = "^(?!\\.)[a-z.]*[a-z]$";
-        if (!destinationPackage.matches(pattern)) {
-            throw new ValidationException("destination-package", pattern);
+        if (!thePackage.matches(pattern)) {
+            throw new ValidationException(propertyName, pattern);
         }
     }
 }

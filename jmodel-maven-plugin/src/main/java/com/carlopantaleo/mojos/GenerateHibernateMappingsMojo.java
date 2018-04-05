@@ -38,10 +38,10 @@ public class GenerateHibernateMappingsMojo extends GenerateJavaCodeMojo {
         }
 
         try {
-            String destinationPackage =
+            String destinationDaoPackage =
                     XmlUtil.getXmlValue(jmodelConfigDocument.get(),
                             "jmodel-configuration/generators/hbm-generator/destination-dao-package");
-            validateDestinationPackage(destinationPackage);
+            validatePackage(destinationDaoPackage, "destination-dao-package");
 
             String beansPackage =
                     XmlUtil.getXmlValue(jmodelConfigDocument.get(),
@@ -52,7 +52,7 @@ public class GenerateHibernateMappingsMojo extends GenerateJavaCodeMojo {
                             "jmodel-configuration/generators/hbm-generator/destination-hbm-dir");
 
             HibernateMappingsGenerator generator =
-                    new HibernateMappingsGenerator(destinationPackage, beansPackage, destinationResourceDir,
+                    new HibernateMappingsGenerator(destinationDaoPackage, beansPackage, destinationResourceDir,
                             jmodelDocument.get(), projectDir, getLog());
             generator.generateSources();
         } catch (Exception e) {

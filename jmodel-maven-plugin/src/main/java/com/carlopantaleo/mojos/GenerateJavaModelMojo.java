@@ -1,6 +1,5 @@
 package com.carlopantaleo.mojos;
 
-import com.carlopantaleo.exceptions.ValidationException;
 import com.carlopantaleo.generators.JavaModelGenerator;
 import com.carlopantaleo.utils.XmlUtil;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -11,7 +10,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.w3c.dom.Document;
 
-import java.io.FileNotFoundException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -43,7 +41,7 @@ public class GenerateJavaModelMojo extends GenerateJavaCodeMojo {
             String destinationPackage =
                     XmlUtil.getXmlValue(jmodelConfigDocument.get(),
                             "jmodel-configuration/generators/java-generator/destination-package");
-            validateDestinationPackage(destinationPackage);
+            validatePackage(destinationPackage, "destination-package");
 
             JavaModelGenerator generator =
                     new JavaModelGenerator(destinationPackage, jmodelDocument.get(), projectDir);

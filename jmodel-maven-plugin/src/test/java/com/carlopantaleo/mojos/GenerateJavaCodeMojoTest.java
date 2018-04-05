@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class GenerateJavaCodeMojoTest {
     @Test(expected = MojoFailureException.class)
@@ -60,7 +60,7 @@ public class GenerateJavaCodeMojoTest {
             AtomicReference<Document> jmodelConfigDocument = new AtomicReference<>();
             setupMojo(jmodelConfigDocument, jmodelDocument, configurationFileName, jmodelFileName);
             try {
-                validateDestinationPackage(destinationPackage);
+                validatePackage(destinationPackage, "destination-dao-package");
             } catch (ValidationException e) {
                 throw new MojoFailureException("Invalid package.", e);
             }

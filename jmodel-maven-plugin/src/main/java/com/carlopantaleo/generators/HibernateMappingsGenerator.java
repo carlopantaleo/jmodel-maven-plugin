@@ -18,9 +18,7 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 
 public class HibernateMappingsGenerator {
     private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.xml";
@@ -76,8 +74,7 @@ public class HibernateMappingsGenerator {
             throw new MojoFailureException("Unable to create directory tree " + destinationDir, e);
         }
 
-        String mappingName = table.getClassName() != null ?
-                table.getClassName() : SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
+        String mappingName = table.getClassName();
         String filePath = destinationDir + "/" + mappingName + ".hbm.xml";
         File outFile = new File(filePath);
         Files.write(outFile.toPath(), result.getBytes());

@@ -50,8 +50,7 @@ public class JavaModelGenerator {
     }
 
     private void writeTableJavaFile(Table table) throws Exception {
-        String className = table.getClassName() != null ?
-                table.getClassName() : SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
+        String className = table.getClassName();
 
         try (FileOutputStream fos = new FileOutputStream(makeDestinationPath() + className + ".java")) {
             String source = makeSource(table);
@@ -183,8 +182,7 @@ public class JavaModelGenerator {
 
     private void writeHeaderAndFooter(Table table, StringBuilder sb) throws ValidationException {
         StringBuilder sbHead = generateHeading(sb.toString());
-        String className = table.getClassName() != null ?
-                table.getClassName() : SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
+        String className = table.getClassName();
 
         sbHead.append("public class ")
                 .append(className)

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Table {
     private String name;
-    private @Nullable String className;
+    private String className;
     private List<Field> fields = new ArrayList<>();
     private List<Field> pk = new ArrayList<>();
 
@@ -18,15 +18,15 @@ public class Table {
         pk.add(pkField);
     }
 
-    public Field getField(String name) {
+    public @Nullable Field getField(String name) {
         return getFieldFromList(name, fields);
     }
 
-    public Field getPkField(String name) {
+    public @Nullable Field getPkField(String name) {
         return getFieldFromList(name, pk);
     }
 
-    private Field getFieldFromList(String name, List<Field> fieldList) {
+    private @Nullable Field getFieldFromList(String name, List<Field> fieldList) {
         for (Field field : fieldList) {
             if (name.equals(field.getName())) {
                 return field;
@@ -43,11 +43,11 @@ public class Table {
         this.name = name;
     }
 
-    public @Nullable String getClassName() {
+    public String getClassName() {
         return className;
     }
 
-    public void setClassName(@Nullable String className) {
+    public void setClassName(String className) {
         this.className = className;
     }
 

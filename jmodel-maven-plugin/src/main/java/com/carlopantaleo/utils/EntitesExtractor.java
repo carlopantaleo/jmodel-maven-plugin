@@ -34,7 +34,7 @@ public class EntitesExtractor {
         return tables;
     }
 
-    private void extractTables(List<Table> tables) throws XPathExpressionException {
+    private void extractTables(List<Table> tables) throws XPathExpressionException, ValidationException {
         NodeList tablesNodes = (NodeList) xPath
                 .compile("jmodel/table")
                 .evaluate(model, XPathConstants.NODESET);
@@ -45,8 +45,14 @@ public class EntitesExtractor {
                     .getAttributes()
                     .getNamedItem("name")
                     .getNodeValue());
-            table.setClassName(XmlUtil.getXmlValue(model,
-                    String.format("jmodel/table[@name='%s']/@class-name", table.getName())));
+
+            String className =
+                    XmlUtil.getXmlValue(model, String.format("jmodel/table[@name='%s']/@class-name", table.getName()));
+            if (className == null) {
+                className = SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
+            }
+            table.setClassName(className);
+
             tables.add(table);
         }
     }

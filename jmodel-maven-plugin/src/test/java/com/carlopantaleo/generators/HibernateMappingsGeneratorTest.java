@@ -1,7 +1,6 @@
 package com.carlopantaleo.generators;
 
 import com.carlopantaleo.mojos.GenerateHibernateMappingsMojo;
-import com.carlopantaleo.mojos.GenerateJavaModelMojo;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -12,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class HibernateMappingsGeneratorTest {
     private static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/main/resources/generated/";
@@ -46,7 +45,14 @@ public class HibernateMappingsGeneratorTest {
                 "                <!-- no params -->%n" +
                 "            </type>%n" +
                 "        </property>")));
+        assertTrue(content.contains(
+                String.format("<class name=\"com.jmodel.generated.MyTestTable\"%n" +
+                        "           table=\"TEST_TABLE\">")));
 
+        content = new String(Files.readAllBytes(new File(OUTPUT_DIR + "AnotherTable.hbm.xml").toPath()));
+        assertTrue(content.contains(
+                String.format("<class name=\"com.jmodel.generated.AnotherTable\"%n" +
+                        "           table=\"ANOTHER_TABLE\">")));
     }
 
     private void execute() throws MojoExecutionException, MojoFailureException {

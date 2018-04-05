@@ -10,7 +10,7 @@
         </java-generator>
         <hbm-generator>
             <destination-dao-package>com.jmodel.dao.generated</destination-dao-package>
-            <destination-hbm-dir>hbm</destination-hbm-dir>
+            <destination-hbm-dir>hbm/generated</destination-hbm-dir>
         </hbm-generator>
     </generators>
 

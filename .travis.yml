@@ -1,19 +1,32 @@
 language: java
 
+before_install:
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+
 matrix:
   include:
 # 8
-    - jdk: oraclejdk8
-    - jdk: openjdk8
+    - env: JDK='Oracle JDK 8'
+      jdk: oraclejdk8
+    - env: JDK='OpenJDK 8'
+      jdk: openjdk8
 # 9
-    - jdk: oraclejdk9
-    - jdk: openjdk9
+    - env: JDK='Oracle JDK 9'
+      jdk: oraclejdk9
+    - env: JDK='OpenJDK 9'
+      install: . ./install-jdk.sh -F 9
 # 10
-    - jdk: oraclejdk10
-    - jdk: openjdk10
+    - env: JDK='Oracle JDK 10'
+      jdk: oraclejdk10
+    - env: JDK='OpenJDK 10'
+      install: . ./install-jdk.sh -F 10 -L GPL
 # 11
-    - jdk: oraclejdk11
-    - jdk: openjdk11
+    - env: JDK='Oracle JDK 11'
+      install: . ./install-jdk.sh -F 11 -L BCL
+    - env: JDK='OpenJDK 11'
+      install: . ./install-jdk.sh -F 11 -L GPL
+  allow_failures:
+    - env: JDK='Oracle JDK 10'
 
 install: mvn install -Dgpg.skip
 script: mvn clean compile test

@@ -75,9 +75,9 @@
     <profiles>
         <!-- In case of a Java 9 build, we need to include the following dependencies -->
         <profile>
-            <id>jdk9</id>
+            <id>jdk9+</id>
             <activation>
-                <jdk>[9,12)</jdk>
+                <jdk>[9,)</jdk>
             </activation>
             <dependencies>
                 <dependency>

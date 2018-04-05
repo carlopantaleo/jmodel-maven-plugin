@@ -1,5 +1,5 @@
 .idea
-target
+target*
 *.iml
 *com/jmodel/generated*
-*resources/generated*
+*resources/hbm/*

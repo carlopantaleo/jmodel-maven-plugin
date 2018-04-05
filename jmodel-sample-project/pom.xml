@@ -84,7 +84,7 @@
                     <filesets>
                         <fileset>
                             <directory>src/main/java/com/jmodel</directory>
-                            <directory>src/main/resources/generated</directory>
+                            <directory>src/main/resources/hbm/generated</directory>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
                     </filesets>

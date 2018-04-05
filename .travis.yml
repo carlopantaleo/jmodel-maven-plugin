@@ -28,8 +28,8 @@ matrix:
   allow_failures:
     - env: JDK='Oracle JDK 10'
 
-install: mvn install -Dgpg.skip
-script: mvn clean compile test
+install: mvn help:all-profiles install -e -Dgpg.skip
+script: mvn help:all-profiles clean compile test -e
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

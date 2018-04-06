@@ -8,7 +8,7 @@
         <item>ITEM2</item>
     </enum>
 
-    <table name="TEST_TABLE">
+    <table name="TEST_TABLE" class-name="MyTestTable">
         <fields>
             <field type="string" length="10" pk="true">
                 PRIMARY_KEY
@@ -43,7 +43,13 @@
     <table name="ANOTHER_TABLE">
         <fields>
             <field type="string" pk="true">
-                ANOTHER_FIELD
+                ANOTHER_PK_FIELD_1
+            </field>
+            <field type="string" pk="true">
+                ANOTHER_PK_FIELD_2
+            </field>
+            <field type="string">
+                ANOTHER_NON_PK_FIELD
             </field>
         </fields>
     </table>

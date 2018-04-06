@@ -43,7 +43,13 @@
     <table name="ANOTHER_TABLE">
         <fields>
             <field type="string" pk="true">
-                ANOTHER_FIELD
+                ANOTHER_PK_FIELD_1
+            </field>
+            <field type="string" pk="true">
+                ANOTHER_PK_FIELD_2
+            </field>
+            <field type="string">
+                ANOTHER_NON_PK_FIELD
             </field>
         </fields>
     </table>

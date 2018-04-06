@@ -1,6 +1,5 @@
-package com.carlopantaleo.generators;
+package com.carlopantaleo.mojos;
 
-import com.carlopantaleo.mojos.GenerateHibernateMappingsMojo;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -13,7 +12,7 @@ import java.nio.file.Files;
 
 import static org.junit.Assert.assertTrue;
 
-public class HibernateMappingsGeneratorTest {
+public class GenerateHibernateMappingsMojoTest {
     private static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/main/resources/generated/";
 
     @After
@@ -53,6 +52,22 @@ public class HibernateMappingsGeneratorTest {
         assertTrue(content.contains(
                 String.format("<class name=\"com.jmodel.generated.AnotherTable\"%n" +
                         "           table=\"ANOTHER_TABLE\">")));
+        assertTrue(content.contains(
+                String.format("<composite-id>%n" +
+                        "            %n" +
+                        "            <key-property name=\"anotherPkField1\" column=\"ANOTHER_PK_FIELD_1\">%n" +
+                        "                <type name=\"java.lang.String\">%n" +
+                        "                    <!-- no params -->%n" +
+                        "                </type>%n" +
+                        "            </key-property>%n" +
+                        "            %n" +
+                        "            <key-property name=\"anotherPkField2\" column=\"ANOTHER_PK_FIELD_2\">%n" +
+                        "                <type name=\"java.lang.String\">%n" +
+                        "                    <!-- no params -->%n" +
+                        "                </type>%n" +
+                        "            </key-property>%n" +
+                        "            %n" +
+                        "        </composite-id>")));
     }
 
     private void execute() throws MojoExecutionException, MojoFailureException {

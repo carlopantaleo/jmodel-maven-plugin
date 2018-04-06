@@ -22,7 +22,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class HibernateMappingsGenerator {
-    private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.xml";
+    private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.tpl";
 
     private final String destinationDaoPackage;
     private final String beansPackage;
@@ -126,12 +126,13 @@ public class HibernateMappingsGenerator {
             templateEngine.addField("single-id", true);
             addFieldType(templateEngine, id);
         } else {
-            IteratedField iteratedField = new IteratedField("pkField");
+            IteratedField iteratedField = new IteratedField("pk-field");
             for (Field field : pk) {
                 addFieldToIteratedField(iteratedField, field);
             }
 
             templateEngine.addField("composite-id", true);
+            templateEngine.addIteratedField(iteratedField);
         }
 
         return pk;

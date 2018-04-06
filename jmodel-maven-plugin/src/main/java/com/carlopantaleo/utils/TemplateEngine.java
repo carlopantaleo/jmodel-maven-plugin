@@ -32,8 +32,34 @@ public class TemplateEngine {
     }
 
     public String compile() {
-        result = replaceIteratedFields(iteratedFields, template);
+        result = template;
+        result = replaceIteratedFields(iteratedFields, result);
+        result = replaceConditionalFields(fields, result);
         result = replacePlainFields(fields, result);
+        return result;
+    }
+
+    private String replaceConditionalFields(Map<String, Object> fields, String template) {
+        String result = template;
+        String regexIfDef = "(?<!@)@ifdef\\(([-a-zA-Z0-9]*)\\)\\[(.*?)]";
+        Pattern pattern = Pattern.compile(regexIfDef, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(template);
+
+        while (matcher.find()) {
+            if (matcher.groupCount() == 2) {
+                String varName = matcher.group(1);
+                String regexReplace = "(?<!@)@ifdef\\(" + varName + "\\)\\[(.*?)]";
+                Matcher replacer = Pattern.compile(regexReplace, Pattern.DOTALL).matcher(result);
+
+                if (fields.get(varName) != null) {
+                    String partialResult = matcher.group(2);
+                    result = replacer.replaceAll(partialResult);
+                } else {
+                    result = replacer.replaceAll("");
+                }
+            }
+        }
+
         return result;
     }
 
@@ -41,18 +67,22 @@ public class TemplateEngine {
     private String replacePlainFields(Map<String, Object> fields, String template) {
         String result = template;
         for (Map.Entry<String, Object> entry : fields.entrySet()) {
-            result = result.replaceAll("\\$\\{" + entry.getKey() + "}", entry.getValue().toString());
+            result = result.replaceAll("(?<!&)&\\{" + entry.getKey() + "}", entry.getValue().toString());
         }
 
-        return result;
+        return replaceUndefinedPlainFields(result);
+    }
+
+    private String replaceUndefinedPlainFields(String result) {
+        return result.replaceAll("(?<!&)&\\{[-a-zA-Z0-9]*}", "");
     }
 
     private String replaceIteratedFields(Map<String, List<Map<String, Object>>> iteratedFields, String template) {
         String result = template;
         for (Map.Entry<String, List<Map<String, Object>>> entry : iteratedFields.entrySet()) {
-            String regex = "@iterated\\(" + entry.getKey() + "\\)\\[(.*)]";
+            String regex = "(?<!@)@iterated\\(" + entry.getKey() + "\\)\\[(.*?)]";
             Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
-            Matcher matcher = pattern.matcher(template);
+            Matcher matcher = pattern.matcher(result);
 
             while (matcher.find() && matcher.groupCount() == 1) {
                 String partialTemplate = matcher.group(1);
@@ -61,11 +91,18 @@ public class TemplateEngine {
                     partialResult.append(replacePlainFields(fields, partialTemplate));
                 }
 
-                result = pattern.matcher(template).replaceAll(partialResult.toString());
+                result = pattern.matcher(result).replaceAll(partialResult.toString());
             }
         }
 
-        return result;
+        return replaceUndefinedIteratedFields(result);
+    }
+
+    private String replaceUndefinedIteratedFields(String result) {
+        String regex = "(?<!@)@iterated\\([-a-zA-Z0-9]*\\)\\[(.*?)]";
+        Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(result);
+        return matcher.replaceAll("");
     }
 
     public static class IteratedField {

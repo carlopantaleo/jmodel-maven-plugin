@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.List;
 
 public class HibernateMappingsGenerator {
     private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.xml";
@@ -82,43 +83,57 @@ public class HibernateMappingsGenerator {
 
     private TemplateEngine buildTemplateEngine(String template, Table table)
             throws MojoFailureException, ValidationException {
-        if (table.getPk().size() != 1) {
-            throw new MojoFailureException("Hibernate expects primary keys to be composed only of one field. Table " +
-                    table.getName() + " has " + table.getPk().size() + " fields in the primary key.");
-        }
 
         TemplateEngine templateEngine = new TemplateEngine(template)
                 .addField("qualified-class-name", beansPackage + "." + table.getClassName())
                 .addField("table-name", table.getName());
 
-        Field pk = addAndGetPk(table, templateEngine);
+        List<Field> pk = addAndGetPk(table, templateEngine);
         IteratedField iteratedField = addAndGetIteratedFields(table, pk);
 
         templateEngine.addIteratedField(iteratedField);
         return templateEngine;
     }
 
-    private IteratedField addAndGetIteratedFields(Table table, Field pk) throws ValidationException {
+    private IteratedField addAndGetIteratedFields(Table table, List<Field> pk) throws ValidationException {
         IteratedField iteratedField = new IteratedField("field");
         for (Field field : table.getFields()) {
-            if (field == pk) {
+            if (pk.contains(field)) {
                 continue;
             }
 
-            iteratedField.addField("field-name", field.getName())
-                    .addField("field-name", SnakeCaseToCamelcase.toCamelCase(field.getName()))
-                    .addField("field-column-name", field.getName());
-            addFieldType(iteratedField, field);
-            iteratedField.next();
+            addFieldToIteratedField(iteratedField, field);
         }
         return iteratedField;
     }
 
-    private Field addAndGetPk(Table table, TemplateEngine templateEngine) throws ValidationException {
-        Field pk = Iterables.getFirst(table.getPk(), null);
-        templateEngine.addField("pk-field-name", SnakeCaseToCamelcase.toCamelCase(pk.getName()));
-        templateEngine.addField("pk-field-column-name", pk.getName());
-        addFieldType(templateEngine, pk);
+    private void addFieldToIteratedField(IteratedField iteratedField, Field field)
+            throws ValidationException {
+        iteratedField.addField("field-name", field.getName())
+                .addField("field-name", SnakeCaseToCamelcase.toCamelCase(field.getName()))
+                .addField("field-column-name", field.getName());
+        addFieldType(iteratedField, field);
+        iteratedField.next();
+    }
+
+    private List<Field> addAndGetPk(Table table, TemplateEngine templateEngine) throws ValidationException {
+        List<Field> pk = table.getPk();
+
+        if (pk.size() == 1) {
+            Field id = Iterables.getFirst(pk, null);
+            templateEngine.addField("pk-field-name", SnakeCaseToCamelcase.toCamelCase(id.getName()));
+            templateEngine.addField("pk-field-column-name", id.getName());
+            templateEngine.addField("single-id", true);
+            addFieldType(templateEngine, id);
+        } else {
+            IteratedField iteratedField = new IteratedField("pkField");
+            for (Field field : pk) {
+                addFieldToIteratedField(iteratedField, field);
+            }
+
+            templateEngine.addField("composite-id", true);
+        }
+
         return pk;
     }
 

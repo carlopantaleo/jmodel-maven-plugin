@@ -17,7 +17,7 @@
         ]
         @ifdef(composite-id)[
         <composite-id>
-            @iterated(pkField)[
+            @iterated(pk-field)[
             <key-property name="&{field-name}" column="&{field-column-name}">
                 <type name="&{field-column-type}">
                     &{type-params}

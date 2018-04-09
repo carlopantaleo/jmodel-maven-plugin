@@ -32,11 +32,15 @@ public class TemplateEngine {
     }
 
     public String compile() {
-        result = template;
+        result = escapeDollarSign(template);
         result = replaceIteratedFields(iteratedFields, result);
         result = replaceConditionalFields(fields, result);
         result = replacePlainFields(fields, result);
         return result;
+    }
+
+    private String escapeDollarSign(String template) {
+        return template.replace("$", "\\$");
     }
 
     private String replaceConditionalFields(Map<String, Object> fields, String template) {

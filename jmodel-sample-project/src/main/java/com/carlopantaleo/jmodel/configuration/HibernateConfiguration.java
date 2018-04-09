@@ -3,21 +3,24 @@ package com.carlopantaleo.jmodel.configuration;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
+@Configuration
+@EnableTransactionManagement
 public class HibernateConfiguration {
-
     @Bean
     public LocalSessionFactoryBean sessionFactory(ApplicationContext ctx) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
-        sessionFactory.setMappingDirectoryLocations(ctx.getResource("hbm/generated"));
+        sessionFactory.setMappingDirectoryLocations(ctx.getResource("classpath:hbm/generated"));
 
         return sessionFactory;
     }

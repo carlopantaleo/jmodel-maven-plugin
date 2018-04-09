@@ -1,4 +1,4 @@
-package com.carlopantaleo.jmodel.hello;
+package com.carlopantaleo.jmodel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

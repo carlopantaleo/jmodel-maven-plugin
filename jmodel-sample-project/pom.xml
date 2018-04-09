@@ -135,9 +135,12 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>src/main/java/com/jmodel</directory>
-                            <directory>src/main/resources/hbm/generated</directory>
                             <followSymlinks>false</followSymlinks>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>src/main/java/com/jmodel/**</include>
+                                <include>src/main/resources/hbm/generated/**</include>
+                            </includes>
                         </fileset>
                     </filesets>
                 </configuration>

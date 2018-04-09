@@ -6,7 +6,7 @@ import com.carlopantaleo.entities.Table;
 import com.carlopantaleo.exceptions.ValidationException;
 import com.carlopantaleo.utils.EntitesExtractor;
 import com.carlopantaleo.utils.SnakeCaseToCamelcase;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableSet;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
 import com.google.googlejavaformat.java.JavaFormatterOptions;
@@ -16,14 +16,14 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
-import java.util.Set;
 
 public class JavaModelGenerator {
-    private final Set<String> possibleImports = Sets.newHashSet(
+    private final ImmutableSet<String> possibleImports = ImmutableSet.<String>builder().add(
             "javax.annotation.Nullable",
             "java.math.BigDecimal",
-            "java.time.LocalDateTime"
-    );
+            "java.time.LocalDateTime",
+            "java.io.Serializable")
+            .build();
 
     private String destinationPackage;
     private Document model;
@@ -181,12 +181,14 @@ public class JavaModelGenerator {
     }
 
     private void writeHeaderAndFooter(Table table, StringBuilder sb) throws ValidationException {
-        StringBuilder sbHead = generateHeading(sb.toString());
+        StringBuilder sbHead = new StringBuilder();
         String className = table.getClassName();
-
         sbHead.append("public class ")
                 .append(className)
-                .append('{');
+                .append(" implements Serializable {");
+
+        // Insert imports
+        sbHead.insert(0, generateHeading(sbHead.toString() + sb.toString()));
 
         // Insert heading into main StringBuilder
         sb.insert(0, sbHead);

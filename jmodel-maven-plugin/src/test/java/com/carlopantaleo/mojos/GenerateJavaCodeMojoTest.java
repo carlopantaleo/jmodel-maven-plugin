@@ -60,7 +60,7 @@ public class GenerateJavaCodeMojoTest {
             AtomicReference<Document> jmodelConfigDocument = new AtomicReference<>();
             setupMojo(jmodelConfigDocument, jmodelDocument, configurationFileName, jmodelFileName);
             try {
-                validatePackage(destinationPackage, "destination-dao-package");
+                validatePackage(destinationPackage, "destination-package");
             } catch (ValidationException e) {
                 throw new MojoFailureException("Invalid package.", e);
             }

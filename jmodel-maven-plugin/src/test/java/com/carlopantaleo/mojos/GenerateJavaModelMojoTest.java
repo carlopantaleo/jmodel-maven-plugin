@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class GenerateJavaModelMojoTest {
     private static final String GENERATED_DIR = System.getProperty("user.dir") + "/src/main/java/com/jmodel/generated/";
@@ -34,9 +33,16 @@ public class GenerateJavaModelMojoTest {
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
 
         {
-            int start = 6, i = 0;
-            assertEquals(89, lines.size());
-            assertEquals("public class MyTestTable {", lines.get(start + i++).trim());
+            int start = 0, i = 0;
+            assertEquals(90, lines.size());
+            assertEquals("package com.jmodel.generated;", lines.get(start + i++).trim());
+            i++;
+            assertEquals("import javax.annotation.Nullable;", lines.get(start + i++).trim());
+            assertEquals("import java.math.BigDecimal;", lines.get(start + i++).trim());
+            assertEquals("import java.time.LocalDateTime;", lines.get(start + i++).trim());
+            assertEquals("import java.io.Serializable;", lines.get(start + i++).trim());
+            i++;
+            assertEquals("public class MyTestTable implements Serializable {", lines.get(start + i++).trim());
             assertEquals("private String primaryKey;", lines.get(start + i++).trim());
             assertEquals("private @Nullable String secondField;", lines.get(start + i++).trim());
             assertEquals("private String thirdField;", lines.get(start + i++).trim());
@@ -49,7 +55,7 @@ public class GenerateJavaModelMojoTest {
         }
 
         {
-            int start = 17, i = 0;
+            int start = 18, i = 0;
             assertEquals("public String getPrimaryKey() {", lines.get(start + i++ * 4).trim());
             assertEquals("public void setPrimaryKey(String primaryKey) {", lines.get(start + i++ * 4).trim());
             assertEquals("public @Nullable String getSecondField() {", lines.get(start + i++ * 4).trim());
@@ -78,7 +84,7 @@ public class GenerateJavaModelMojoTest {
         Path path = new File(GENERATED_DIR + "AnotherTable.java").toPath();
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
 
-        assertEquals("public class AnotherTable {", lines.get(2).trim());
+        assertEquals("public class AnotherTable implements Serializable {", lines.get(4).trim());
     }
 
     @Test

@@ -16,7 +16,7 @@ import java.util.Map;
 @Transactional
 public class BaseDao<T extends Serializable> {
     private Class<T> clazz;
-    protected final SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public BaseDao(SessionFactory sessionFactory) {

@@ -23,7 +23,7 @@ public class BaseDao<T extends Serializable> {
         this.sessionFactory = sessionFactory;
     }
 
-    public final void setClazz(Class<T> clazzToSet) {
+    public void setClazz(Class<T> clazzToSet) {
         this.clazz = clazzToSet;
     }
 
@@ -73,7 +73,7 @@ public class BaseDao<T extends Serializable> {
         delete(entity);
     }
 
-    protected final Session getCurrentSession() {
+    protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
 }

@@ -1,6 +1,6 @@
 package com.carlopantaleo.jmodel.configuration;
 
-import com.carlopantaleo.jmodel.dao.BaseDao;
+import com.carlopantaleo.jmodel.basedao.BaseDao;
 import com.jmodel.generated.MyTestTable;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;

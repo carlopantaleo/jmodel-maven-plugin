@@ -1,4 +1,4 @@
-package com.carlopantaleo.jmodel.dao;
+package com.carlopantaleo.jmodel.basedao;
 
 import com.google.common.collect.ImmutableMap;
 

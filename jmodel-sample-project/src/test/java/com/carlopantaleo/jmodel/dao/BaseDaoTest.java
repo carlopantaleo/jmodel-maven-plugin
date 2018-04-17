@@ -1,5 +1,7 @@
 package com.carlopantaleo.jmodel.dao;
 
+import com.carlopantaleo.jmodel.basedao.BaseDao;
+import com.carlopantaleo.jmodel.basedao.Filter;
 import com.jmodel.generated.MyTestTable;
 import com.jmodel.generated.TestEnum;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import static org.junit.Assert.assertNull;
 @Transactional
 public class BaseDaoTest {
     @Autowired
-    public BaseDao<MyTestTable> myTestTableBaseDao;
+    BaseDao<MyTestTable> myTestTableBaseDao;
 
     @Test
     public void simpleOperationsWork() {

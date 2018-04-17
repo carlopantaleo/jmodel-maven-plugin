@@ -1,5 +1,6 @@
 package com.carlopantaleo.jmodel.dao;
 
+import com.carlopantaleo.jmodel.basedao.BaseDao;
 import com.jmodel.generated.AnotherTable;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

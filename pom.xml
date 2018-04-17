@@ -12,6 +12,7 @@
     <modules>
         <module>jmodel-maven-plugin</module>
         <module>jmodel-sample-project</module>
+        <module>jmodel-base-dao</module>
     </modules>
 
     <!-- FIXME change it to the project's website -->

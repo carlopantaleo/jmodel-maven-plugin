@@ -1,6 +1,7 @@
 package com.carlopantaleo.jmodel.mojos;
 
-import com.carlopantaleo.jmodel.generators.HibernateMappingsGenerator;
+import com.carlopantaleo.jmodel.generators.JavaModelGenerator;
+import com.carlopantaleo.jmodel.generators.TypescriptModelGenerator;
 import com.carlopantaleo.jmodel.utils.XmlUtil;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -13,11 +14,11 @@ import org.w3c.dom.Document;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * This Mojo generates Hibernate mapping files from jmodel.xml.
+ * This Mojo generates standard Java classes from jmodel.xml.
  */
-@Mojo(name = "generate-hbm-files", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-@Execute(goal = "generate-hbm-files", phase = LifecyclePhase.GENERATE_SOURCES)
-public class GenerateHibernateMappingsMojo extends GenerateCodeMojo {
+@Mojo(name = "generate-typescript-model", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Execute(goal = "generate-typescript-model", phase = LifecyclePhase.GENERATE_SOURCES)
+public class GenerateTypescriptModelMojo extends GenerateCodeMojo {
     @Parameter(defaultValue = "jmodel.xml")
     private String jmodelFileName = "jmodel.xml";
 
@@ -32,28 +33,18 @@ public class GenerateHibernateMappingsMojo extends GenerateCodeMojo {
         AtomicReference<Document> jmodelConfigDocument = new AtomicReference<>();
         setupMojo(jmodelConfigDocument, jmodelDocument, configurationFileName, jmodelFileName);
 
-        if (!isGeneratorEnabled(jmodelConfigDocument.get(), "hbm-generator")) {
+        if (!isGeneratorEnabled(jmodelConfigDocument.get(), "typescript-generator")) {
             // Proceed no further, this generator is not enabled.
             return;
         }
 
         try {
-            String destinationDaoPackage =
+            String destinationDir =
                     XmlUtil.getXmlValue(jmodelConfigDocument.get(),
-                            "jmodel-configuration/generators/hbm-generator/destination-dao-package");
-            validatePackage(destinationDaoPackage, "destination-dao-package");
+                            "jmodel-configuration/generators/typescript-generator/destination-dir");
 
-            String beansPackage =
-                    XmlUtil.getXmlValue(jmodelConfigDocument.get(),
-                            "jmodel-configuration/generators/java-generator/destination-package");
-
-            String destinationResourceDir =
-                    XmlUtil.getXmlValue(jmodelConfigDocument.get(),
-                            "jmodel-configuration/generators/hbm-generator/destination-hbm-dir");
-
-            HibernateMappingsGenerator generator =
-                    new HibernateMappingsGenerator(destinationDaoPackage, beansPackage, destinationResourceDir,
-                            jmodelDocument.get(), projectDir, getLog());
+            TypescriptModelGenerator generator =
+                    new TypescriptModelGenerator(destinationDir, jmodelDocument.get(), projectDir);
             generator.generateSources();
         } catch (Exception e) {
             throw new MojoExecutionException("Exception while generating sources.", e);

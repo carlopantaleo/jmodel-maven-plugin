@@ -12,6 +12,9 @@
             <destination-dao-package>com.jmodel.dao.generated</destination-dao-package>
             <destination-hbm-dir>generated</destination-hbm-dir>
         </hbm-generator>
+        <typescript-generator>
+            <destination-dir>src/main/typescript/generated</destination-dir>
+        </typescript-generator>
     </generators>
 
 </jmodel-configuration>

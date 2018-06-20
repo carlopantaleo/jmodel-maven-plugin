@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertTrue;
 
-public class GenerateJavaCodeMojoTest {
+public class GenerateCodeMojoTest {
     @Test(expected = MojoFailureException.class)
     public void nullDestinationPackageComplains() throws Exception {
         TestMojo mojo = new TestMojo();
@@ -48,14 +48,14 @@ public class GenerateJavaCodeMojoTest {
         assertTrue(mojo.hasRun());
     }
 
-    private static class TestMojo extends GenerateJavaCodeMojo {
+    private static class TestMojo extends GenerateCodeMojo {
         private String configurationFileName = "jmodel-configuration.xml";
         private String jmodelFileName = "jmodel.xml";
         private String destinationPackage = null;
         private boolean hasRun = false;
 
         @Override
-        public void execute() throws MojoExecutionException, MojoFailureException {
+        public void execute() throws MojoFailureException {
             AtomicReference<Document> jmodelDocument = new AtomicReference<>();
             AtomicReference<Document> jmodelConfigDocument = new AtomicReference<>();
             setupMojo(jmodelConfigDocument, jmodelDocument, configurationFileName, jmodelFileName);

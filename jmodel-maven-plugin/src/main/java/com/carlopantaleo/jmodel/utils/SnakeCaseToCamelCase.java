@@ -53,7 +53,7 @@ public class SnakeCaseToCamelCase {
      *
      * @param input            the input string.
      */
-    public static String toCamelCaseCapital(String input) throws ValidationException {
+    public static String toCamelCaseCapital(String input) {
         return new SnakeCaseToCamelCase(input, false).convert();
     }
 

@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Mojo(name = "generate-java-model", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 @Execute(goal = "generate-java-model", phase = LifecyclePhase.GENERATE_SOURCES)
-public class GenerateJavaModelMojo extends GenerateJavaCodeMojo {
+public class GenerateJavaModelMojo extends GenerateCodeMojo {
     @Parameter(defaultValue = "jmodel.xml")
     private String jmodelFileName = "jmodel.xml";
 

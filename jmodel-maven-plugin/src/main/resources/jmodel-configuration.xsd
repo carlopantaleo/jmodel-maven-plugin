@@ -29,7 +29,21 @@
                 </xs:element>
                 <xs:element name="destination-hbm-dir" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Destination directory for .hbm.xml mapping files.</xs:documentation>
+                        <xs:documentation>
+                            Destination resource directory for .hbm.xml mapping files (relative to the project resources
+                            directory).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="typescript-generator">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="destination-dir" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Destination directory for TypeScript files.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
             </xs:sequence>
@@ -41,6 +55,7 @@
                 <xs:element ref="java-generator" minOccurs="0"/>
                 <xs:element ref="mybatis-generator" minOccurs="0"/>
                 <xs:element ref="hbm-generator" minOccurs="0"/>
+                <xs:element ref="typescript-generator" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

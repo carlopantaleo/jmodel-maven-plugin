@@ -30,8 +30,7 @@ matrix:
   allow_failures:
     - env: JDK='Oracle JDK 10'
 
-install: mvn help:all-profiles install -e -Dgpg.skip
-script: mvn help:all-profiles clean compile test -e
+script: mvn help:all-profiles clean package clover:instrument clover:clover -e
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

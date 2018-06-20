@@ -3,13 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jmodel-maven-plugin</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <parent>
         <groupId>com.carlopantaleo</groupId>
         <artifactId>jmodel</artifactId>
-        <version>1.0.0-RELEASE</version>
+        <version>0.1.0-RELEASE</version>
     </parent>
 
     <name>JModel Maven Plugin</name>

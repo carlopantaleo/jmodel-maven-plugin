@@ -24,8 +24,9 @@ public class SnakeCaseToCamelCaseTest {
         assertEquals("SomeTexttoConvert", converted);
     }
 
-    @Test(expected = ValidationException.class)
-    public void convert_throwExceptionOnInvalidInput() throws ValidationException {
-        SnakeCaseToCamelCase.toCamelCase("_SOME_TEXT_TO_CONVERT");
+    @Test
+    public void convert_worksOnDirtyInput() throws ValidationException {
+        String converted = SnakeCaseToCamelCase.toCamelCase("_SOME_TEXT_TO_CONVERT");
+        assertEquals("someTextToConvert", converted);
     }
 }

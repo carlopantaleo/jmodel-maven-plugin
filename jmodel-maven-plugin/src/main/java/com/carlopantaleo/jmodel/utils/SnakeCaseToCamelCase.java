@@ -1,9 +1,7 @@
 package com.carlopantaleo.jmodel.utils;
 
 import com.carlopantaleo.jmodel.exceptions.ValidationException;
-
-import static java.lang.Character.toLowerCase;
-import static java.lang.Character.toUpperCase;
+import com.google.common.base.CaseFormat;
 
 /**
  * <p>Converts a {@code SNAKE_CASE} string to a {@code camelCase} one.</p> <p>Example usage:
@@ -17,8 +15,6 @@ import static java.lang.Character.toUpperCase;
  * </p>
  */
 public class SnakeCaseToCamelCase {
-    private static final String VALIDATION_PATTERN = "^(?!_)[A-Za-z0-9_]*";
-
     private final String input;
     private boolean lowerFirstLetter = true;
 
@@ -42,7 +38,7 @@ public class SnakeCaseToCamelCase {
      *
      * @param input the input string.
      */
-    public static String toCamelCase(String input) throws ValidationException {
+    public static String toCamelCase(String input) {
         return new SnakeCaseToCamelCase(input).convert();
     }
 
@@ -61,39 +57,8 @@ public class SnakeCaseToCamelCase {
         return new SnakeCaseToCamelCase(input, false).convert();
     }
 
-    public String convert() throws ValidationException {
-        validateInput();
-
-        StringBuilder sb = new StringBuilder(input.length());
-        for (int i = 0; i < input.length(); i++) {
-            char c = processLetter(i);
-            if (c != 0) {
-                sb.append(c);
-            }
-        }
-
-        return sb.toString();
-    }
-
-    private char processLetter(int i) {
-        if (i == 0) {
-            return lowerFirstLetter ? toLowerCase(input.charAt(i)) : toUpperCase(input.charAt(i));
-        }
-
-        if (input.charAt(i - 1) == '_') {
-            return Character.toUpperCase(input.charAt(i));
-        }
-
-        if (input.charAt(i) == '_') {
-            return 0;
-        }
-
-        return toLowerCase(input.charAt(i));
-    }
-
-    private void validateInput() throws ValidationException {
-        if (!input.matches(VALIDATION_PATTERN)) {
-            throw new ValidationException(input, VALIDATION_PATTERN);
-        }
+    public String convert() {
+        String output = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input);
+        return lowerFirstLetter ? output.substring(0, 1).toLowerCase() + output.substring(1) : output;
     }
 }

@@ -32,12 +32,11 @@ matrix:
       install: . ./install-jdk.sh -F ea -L BCL
     - env: JDK='OpenJDK EA'
       install: . ./install-jdk.sh -F ea -L GPL
-
-allow_failures:
+  allow_failures:
     - env: JDK='Oracle JDK EA'
     - env: JDK='OpenJDK EA'
 
-script: mvn help:all-profiles clean package clover:instrument clover:clover -e
+script: mvn help:all-profiles clean install clover:instrument clover:clover -e
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

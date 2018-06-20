@@ -5,27 +5,27 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class SnakeCaseToCamelcaseTest {
+public class SnakeCaseToCamelCaseTest {
     @Test
     public void convert_worksOnFirstLowerCase() throws ValidationException {
-        String converted = SnakeCaseToCamelcase.toCamelCase("SOME_TEXT_TO_CONVERT");
+        String converted = SnakeCaseToCamelCase.toCamelCase("SOME_TEXT_TO_CONVERT");
         assertEquals("someTextToConvert", converted);
     }
 
     @Test
     public void convert_worksOnFirstLUpperCase() throws ValidationException {
-        String converted = SnakeCaseToCamelcase.toCamelCaseCapital("SOME_TEXT_TO_CONVERT");
+        String converted = SnakeCaseToCamelCase.toCamelCaseCapital("SOME_TEXT_TO_CONVERT");
         assertEquals("SomeTextToConvert", converted);
     }
 
     @Test
     public void convert_worksOnMixedCase() throws ValidationException {
-        String converted = SnakeCaseToCamelcase.toCamelCaseCapital("some_textTo_coNvert");
+        String converted = SnakeCaseToCamelCase.toCamelCaseCapital("some_textTo_coNvert");
         assertEquals("SomeTexttoConvert", converted);
     }
 
     @Test(expected = ValidationException.class)
     public void convert_throwExceptionOnInvalidInput() throws ValidationException {
-        SnakeCaseToCamelcase.toCamelCase("_SOME_TEXT_TO_CONVERT");
+        SnakeCaseToCamelCase.toCamelCase("_SOME_TEXT_TO_CONVERT");
     }
 }

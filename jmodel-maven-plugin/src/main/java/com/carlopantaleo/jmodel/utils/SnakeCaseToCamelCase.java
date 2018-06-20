@@ -8,25 +8,25 @@ import static java.lang.Character.toUpperCase;
 /**
  * <p>Converts a {@code SNAKE_CASE} string to a {@code camelCase} one.</p> <p>Example usage:
  * <pre>
- *     String converted = SnakeCaseToCamelcase.convert("SOME_STRING");
+ *     String converted = SnakeCaseToCamelCase.convert("SOME_STRING");
  *     assert converted.equals("someString");
  *
- *     String converted2 = SnakeCaseToCamelcase.convert("SOME_OTHER_STRING", false);
+ *     String converted2 = SnakeCaseToCamelCase.convert("SOME_OTHER_STRING", false);
  *     assert converted2.equals("SomeOtherString");
  * </pre>
  * </p>
  */
-public class SnakeCaseToCamelcase {
+public class SnakeCaseToCamelCase {
     private static final String VALIDATION_PATTERN = "^(?!_)[A-Za-z0-9_]*";
 
-    private String input;
+    private final String input;
     private boolean lowerFirstLetter = true;
 
-    private SnakeCaseToCamelcase(String input) {
+    private SnakeCaseToCamelCase(String input) {
         this.input = input;
     }
 
-    private SnakeCaseToCamelcase(String input, boolean lowerFirstLetter) {
+    private SnakeCaseToCamelCase(String input, boolean lowerFirstLetter) {
         this.input = input;
         this.lowerFirstLetter = lowerFirstLetter;
     }
@@ -35,7 +35,7 @@ public class SnakeCaseToCamelcase {
      * <p>Converts a {@code SNAKE_CASE} string to a {@code camelCase} one, leaving the first letter lower case.</p>
      * <p>Example usage:
      * <pre>
-     *     String converted = SnakeCaseToCamelcase.convert("SOME_STRING");
+     *     String converted = SnakeCaseToCamelCase.convert("SOME_STRING");
      *     assert converted.equals("someString");
      * </pre>
      * </p>
@@ -43,14 +43,14 @@ public class SnakeCaseToCamelcase {
      * @param input the input string.
      */
     public static String toCamelCase(String input) throws ValidationException {
-        return new SnakeCaseToCamelcase(input).convert();
+        return new SnakeCaseToCamelCase(input).convert();
     }
 
     /**
      * <p>Converts a {@code SNAKE_CASE} string to a {@code CamelCase} one, with capital letter.</p>
      * <p>Example usage:
      * <pre>
-     *     String converted = SnakeCaseToCamelcase.convert("SOME_STRING");
+     *     String converted = SnakeCaseToCamelCase.convert("SOME_STRING");
      *     assert converted.equals("SomeString");
      * </pre>
      * </p>
@@ -58,7 +58,7 @@ public class SnakeCaseToCamelcase {
      * @param input            the input string.
      */
     public static String toCamelCaseCapital(String input) throws ValidationException {
-        return new SnakeCaseToCamelcase(input, false).convert();
+        return new SnakeCaseToCamelCase(input, false).convert();
     }
 
     public String convert() throws ValidationException {

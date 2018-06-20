@@ -5,7 +5,7 @@ import com.carlopantaleo.jmodel.entities.Field;
 import com.carlopantaleo.jmodel.entities.Table;
 import com.carlopantaleo.jmodel.exceptions.ValidationException;
 import com.carlopantaleo.jmodel.utils.EntitesExtractor;
-import com.carlopantaleo.jmodel.utils.SnakeCaseToCamelcase;
+import com.carlopantaleo.jmodel.utils.SnakeCaseToCamelCase;
 import com.google.common.collect.ImmutableSet;
 import com.google.googlejavaformat.java.Formatter;
 import com.google.googlejavaformat.java.FormatterException;
@@ -74,7 +74,7 @@ public class JavaModelGenerator {
     private void writeEnumJavaFile(Enum theEnum) throws Exception {
         try (FileOutputStream fos = new FileOutputStream(projectDir + "/src/main/java/" +
                 destinationPackage.replace('.', '/') + "/" +
-                SnakeCaseToCamelcase.toCamelCaseCapital(theEnum.getName()) + ".java")) {
+                SnakeCaseToCamelCase.toCamelCaseCapital(theEnum.getName()) + ".java")) {
 
             String source = makeSource(theEnum);
             fos.write(source.getBytes("UTF8"));
@@ -101,7 +101,7 @@ public class JavaModelGenerator {
 
         // Package and enum declaration
         sb.append("package ").append(destinationPackage).append(';');
-        sb.append("public enum ").append(SnakeCaseToCamelcase.toCamelCaseCapital(theEnum.getName()))
+        sb.append("public enum ").append(SnakeCaseToCamelCase.toCamelCaseCapital(theEnum.getName()))
                 .append('{');
 
         // Enum items
@@ -117,8 +117,8 @@ public class JavaModelGenerator {
     }
 
     private void writeGetterAndSetter(StringBuilder sb, Field field) throws ValidationException {
-        String nameCapital = SnakeCaseToCamelcase.toCamelCaseCapital(field.getName());
-        String name = SnakeCaseToCamelcase.toCamelCase(field.getName());
+        String nameCapital = SnakeCaseToCamelCase.toCamelCaseCapital(field.getName());
+        String name = SnakeCaseToCamelCase.toCamelCase(field.getName());
 
         // Getter
         sb.append("public ");
@@ -163,7 +163,7 @@ public class JavaModelGenerator {
         appendType(sb, field);
 
         // Name
-        sb.append(SnakeCaseToCamelcase.toCamelCase(field.getName()))
+        sb.append(SnakeCaseToCamelCase.toCamelCase(field.getName()))
                 .append(';');
     }
 
@@ -172,7 +172,7 @@ public class JavaModelGenerator {
         if (type == Long.class || type == Double.class || type == Float.class || type == Boolean.class) {
             sb.append(type.getSimpleName().toLowerCase());
         } else if (type == Enum.class) {
-            String enumName = SnakeCaseToCamelcase.toCamelCaseCapital(field.getReferredEnum());
+            String enumName = SnakeCaseToCamelCase.toCamelCaseCapital(field.getReferredEnum());
             sb.append(enumName);
         } else {
             sb.append(type.getSimpleName());

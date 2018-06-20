@@ -49,7 +49,7 @@ public class EntitesExtractor {
             String className =
                     XmlUtil.getXmlValue(model, String.format("jmodel/table[@name='%s']/@class-name", table.getName()));
             if (className == null) {
-                className = SnakeCaseToCamelcase.toCamelCaseCapital(table.getName());
+                className = SnakeCaseToCamelCase.toCamelCaseCapital(table.getName());
             }
             table.setClassName(className);
 

@@ -5,7 +5,7 @@ import com.carlopantaleo.jmodel.entities.Field;
 import com.carlopantaleo.jmodel.entities.Table;
 import com.carlopantaleo.jmodel.exceptions.ValidationException;
 import com.carlopantaleo.jmodel.utils.EntitesExtractor;
-import com.carlopantaleo.jmodel.utils.SnakeCaseToCamelcase;
+import com.carlopantaleo.jmodel.utils.SnakeCaseToCamelCase;
 import com.carlopantaleo.jmodel.utils.TemplateEngine;
 import com.carlopantaleo.jmodel.utils.TemplateEngine.IteratedField;
 import com.google.common.base.Charsets;
@@ -110,7 +110,7 @@ public class HibernateMappingsGenerator {
     private void addFieldToIteratedField(IteratedField iteratedField, Field field)
             throws ValidationException {
         iteratedField.addField("field-name", field.getName())
-                .addField("field-name", SnakeCaseToCamelcase.toCamelCase(field.getName()))
+                .addField("field-name", SnakeCaseToCamelCase.toCamelCase(field.getName()))
                 .addField("field-column-name", field.getName());
         addFieldType(iteratedField, field);
         iteratedField.next();
@@ -121,7 +121,7 @@ public class HibernateMappingsGenerator {
 
         if (pk.size() == 1) {
             Field id = Iterables.getFirst(pk, null);
-            templateEngine.addField("pk-field-name", SnakeCaseToCamelcase.toCamelCase(id.getName()));
+            templateEngine.addField("pk-field-name", SnakeCaseToCamelCase.toCamelCase(id.getName()));
             templateEngine.addField("pk-field-column-name", id.getName());
             templateEngine.addField("single-id", true);
             addFieldType(templateEngine, id);
@@ -144,7 +144,7 @@ public class HibernateMappingsGenerator {
             fieldType = "org.hibernate.type.EnumType";
             fieldParams = "<param name=\"enumClass\">" +
                     beansPackage + "." +
-                    SnakeCaseToCamelcase.toCamelCaseCapital(field.getReferredEnum()) +
+                    SnakeCaseToCamelCase.toCamelCaseCapital(field.getReferredEnum()) +
                     "</param>";
         } else {
             fieldType = field.getType().getTypeName();

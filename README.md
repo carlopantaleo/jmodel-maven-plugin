@@ -7,8 +7,8 @@ A Maven plugin to autogenerate a bunch of boilerplate code starting from a data 
 
 It generates:
 - Java entity classes
-- MyBatis mappers to persist those entity classes (not yet available)
-- SQL schema files (DDLs) (not yet available)
+- TypeScript entity classes
+- Hibernate mapping files
 
 Please note: this plugin is in early development: it has not been extensively tested and most features are missing. 
 **DO NOT USE** in production until version 1.0.0 will be released.

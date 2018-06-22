@@ -6,7 +6,7 @@
     <packaging>maven-plugin</packaging>
 
     <parent>
-        <groupId>com.carlopantaleo</groupId>
+        <groupId>com.github.carlopantaleo</groupId>
         <artifactId>jmodel</artifactId>
         <version>0.1.1-SNAPSHOT</version>
     </parent>
@@ -21,18 +21,18 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.1.1</version>
+            <version>3.5.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-tools-annotations</artifactId>
-            <version>3.4</version>
+            <version>3.5.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.googlejavaformat</groupId>
             <artifactId>google-java-format</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-testing</groupId>

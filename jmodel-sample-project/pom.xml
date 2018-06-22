@@ -8,7 +8,7 @@
     <name>JModel Sample Project</name>
 
     <parent>
-        <groupId>com.carlopantaleo</groupId>
+        <groupId>com.github.carlopantaleo</groupId>
         <artifactId>jmodel</artifactId>
         <version>0.1.1-SNAPSHOT</version>
     </parent>

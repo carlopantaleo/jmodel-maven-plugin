@@ -75,7 +75,7 @@
             <version>25.1-jre</version>
         </dependency>
         <dependency>
-            <groupId>com.carlopantaleo</groupId>
+            <groupId>com.github.carlopantaleo</groupId>
             <artifactId>jmodel-base-dao</artifactId>
             <version>0.1.1-SNAPSHOT</version>
         </dependency>
@@ -163,7 +163,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.carlopantaleo</groupId>
+                <groupId>com.github.carlopantaleo</groupId>
                 <artifactId>jmodel-maven-plugin</artifactId>
                 <version>0.1.1-SNAPSHOT</version>
                 <configuration>

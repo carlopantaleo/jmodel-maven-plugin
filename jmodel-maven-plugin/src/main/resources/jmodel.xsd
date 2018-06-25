@@ -62,7 +62,7 @@
     <xs:element name="jmodel">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="enum" maxOccurs="unbounded"/>
+                <xs:element ref="enum" maxOccurs="unbounded" minOccurs="0"/>
                 <xs:element ref="entity" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>

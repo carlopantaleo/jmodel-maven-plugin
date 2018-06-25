@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.github.carlopantaleo</groupId>
         <artifactId>jmodel</artifactId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.1</version>
     </parent>
 
     <name>JModel Sample Project</name>
     <artifactId>jmodel-sample-project</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
 
     <prerequisites>
         <maven>3.5</maven>
@@ -81,7 +80,7 @@
         <dependency>
             <groupId>com.github.carlopantaleo</groupId>
             <artifactId>jmodel-base-dao</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <version>0.1.1</version>
         </dependency>
     </dependencies>
 
@@ -169,7 +168,7 @@
             <plugin>
                 <groupId>com.github.carlopantaleo</groupId>
                 <artifactId>jmodel-maven-plugin</artifactId>
-                <version>0.1.1-SNAPSHOT</version>
+                <version>0.1.1</version>
                 <configuration>
                     <configurationFileName>${project.basedir}/src/main/resources/jmodel-configuration.xml</configurationFileName>
                     <jmodelFileName>${project.basedir}/src/main/resources/jmodel.xml</jmodelFileName>

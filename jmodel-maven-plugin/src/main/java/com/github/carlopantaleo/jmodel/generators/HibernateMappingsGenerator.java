@@ -5,6 +5,7 @@ import com.github.carlopantaleo.jmodel.entities.Field;
 import com.github.carlopantaleo.jmodel.entities.Table;
 import com.github.carlopantaleo.jmodel.exceptions.ValidationException;
 import com.github.carlopantaleo.jmodel.utils.EntitesExtractor;
+import com.github.carlopantaleo.jmodel.utils.SharedConstants;
 import com.github.carlopantaleo.jmodel.utils.SnakeCaseToCamelCase;
 import com.github.carlopantaleo.jmodel.utils.TemplateEngine;
 import com.github.carlopantaleo.jmodel.utils.TemplateEngine.IteratedField;
@@ -81,8 +82,8 @@ public class HibernateMappingsGenerator {
     }
 
     private TemplateEngine buildTemplateEngine(String template, Table table) throws ValidationException {
-
         TemplateEngine templateEngine = new TemplateEngine(template)
+                .addField("autogen-warn", SharedConstants.AUTOGEN_WARN)
                 .addField("qualified-class-name", beansPackage + "." + table.getClassName())
                 .addField("table-name", table.getName());
 

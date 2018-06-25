@@ -6,6 +6,7 @@ import com.github.carlopantaleo.jmodel.entities.Table;
 import com.github.carlopantaleo.jmodel.exceptions.ValidationException;
 import com.github.carlopantaleo.jmodel.utils.CamelCaseToKebabCase;
 import com.github.carlopantaleo.jmodel.utils.EntitesExtractor;
+import com.github.carlopantaleo.jmodel.utils.SharedConstants;
 import com.github.carlopantaleo.jmodel.utils.SnakeCaseToCamelCase;
 import org.apache.maven.plugin.MojoFailureException;
 import org.w3c.dom.Document;
@@ -96,8 +97,12 @@ public class TypescriptModelGenerator {
 
         String partialOutput = sb.toString();
 
+        // Heading
         sb = new StringBuilder();
+        sb.append("/* ").append(SharedConstants.AUTOGEN_WARN).append(" */\n\n");
         writeImports(sb, imports);
+
+        // Append body to heading
         sb.append(partialOutput);
 
         return sb.toString();
@@ -144,6 +149,8 @@ public class TypescriptModelGenerator {
 
     private String makeSource(Enum theEnum) {
         StringBuilder sb = new StringBuilder();
+        sb.append("/* ").append(SharedConstants.AUTOGEN_WARN).append(" */\n\n");
+
         sb.append("export enum ")
                 .append(SnakeCaseToCamelCase.toCamelCaseCapital(theEnum.getName()))
                 .append(" {\n");

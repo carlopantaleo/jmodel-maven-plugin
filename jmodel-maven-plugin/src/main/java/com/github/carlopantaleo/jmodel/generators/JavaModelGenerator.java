@@ -5,6 +5,7 @@ import com.github.carlopantaleo.jmodel.entities.Field;
 import com.github.carlopantaleo.jmodel.entities.Table;
 import com.github.carlopantaleo.jmodel.entities.Enum;
 import com.github.carlopantaleo.jmodel.exceptions.ValidationException;
+import com.github.carlopantaleo.jmodel.utils.SharedConstants;
 import com.github.carlopantaleo.jmodel.utils.SnakeCaseToCamelCase;
 import com.google.common.collect.ImmutableSet;
 import com.google.googlejavaformat.java.Formatter;
@@ -98,6 +99,7 @@ public class JavaModelGenerator {
 
     private String makeSource(Enum theEnum) throws FormatterException {
         StringBuilder sb = new StringBuilder();
+        sb.append("/* ").append(SharedConstants.AUTOGEN_WARN).append(" */\n\n");
 
         // Package and enum declaration
         sb.append("package ").append(destinationPackage).append(';');
@@ -152,7 +154,7 @@ public class JavaModelGenerator {
                 .formatSource(sb.toString());
     }
 
-    private void writeField(StringBuilder sb, Field field) throws ValidationException {
+    private void writeField(StringBuilder sb, Field field) {
         // Qualifier
         sb.append("private ");
 
@@ -199,6 +201,8 @@ public class JavaModelGenerator {
 
     private StringBuilder generateHeading(String body) {
         StringBuilder sbHead = new StringBuilder();
+        sbHead.append("/* ").append(SharedConstants.AUTOGEN_WARN).append(" */\n\n");
+
         sbHead.append("package ").append(destinationPackage).append(';');
 
         for (String possibleImport : possibleImports) {

@@ -33,8 +33,8 @@ public class GenerateJavaModelMojoTest {
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
 
         {
-            int start = 0, i = 0;
-            assertEquals(90, lines.size());
+            int start = 2, i = 0;
+            assertEquals(92, lines.size());
             assertEquals("package com.jmodel.generated;", lines.get(start + i++).trim());
             i++;
             assertEquals("import javax.annotation.Nullable;", lines.get(start + i++).trim());
@@ -55,7 +55,7 @@ public class GenerateJavaModelMojoTest {
         }
 
         {
-            int start = 18, i = 0;
+            int start = 20, i = 0;
             assertEquals("public String getPrimaryKey() {", lines.get(start + i++ * 4).trim());
             assertEquals("public void setPrimaryKey(String primaryKey) {", lines.get(start + i++ * 4).trim());
             assertEquals("public @Nullable String getSecondField() {", lines.get(start + i++ * 4).trim());
@@ -84,7 +84,7 @@ public class GenerateJavaModelMojoTest {
         Path path = new File(GENERATED_DIR + "AnotherTable.java").toPath();
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
 
-        assertEquals("public class AnotherTable implements Serializable {", lines.get(4).trim());
+        assertEquals("public class AnotherTable implements Serializable {", lines.get(6).trim());
     }
 
     @Test
@@ -94,10 +94,10 @@ public class GenerateJavaModelMojoTest {
         Path path = new File(GENERATED_DIR + "TestEnum.java").toPath();
         List<String> lines = Files.readAllLines(path, Charset.forName("UTF-8"));
 
-        assertEquals(6, lines.size());
-        assertEquals("public enum TestEnum {", lines.get(2).trim());
-        assertEquals("ITEM1,", lines.get(3).trim());
-        assertEquals("ITEM2", lines.get(4).trim());
+        assertEquals(8, lines.size());
+        assertEquals("public enum TestEnum {", lines.get(4).trim());
+        assertEquals("ITEM1,", lines.get(5).trim());
+        assertEquals("ITEM2", lines.get(6).trim());
     }
 
     private void execute() throws MojoExecutionException, MojoFailureException {

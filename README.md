@@ -26,7 +26,7 @@ Anyways, any contribution is well welcomed.
        <plugin>
            <groupId>com.github.carlopantaleo</groupId>
            <artifactId>jmodel-maven-plugin</artifactId>
-           <version>0.1.1</version>
+           <version>0.1.2</version>
            <configuration>
                <configurationFileName>${project.basedir}/src/main/resources/jmodel-configuration.xml</configurationFileName>
                <jmodelFileName>${project.basedir}/src/main/resources/jmodel.xml</jmodelFileName>

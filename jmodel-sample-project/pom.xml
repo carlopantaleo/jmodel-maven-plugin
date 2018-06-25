@@ -180,6 +180,7 @@
                         <goals>
                             <goal>generate-java-model</goal>
                             <goal>generate-hbm-files</goal>
+                            <goal>generate-typescript-model</goal>
                         </goals>
                     </execution>
                 </executions>

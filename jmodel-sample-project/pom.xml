@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.github.carlopantaleo</groupId>
         <artifactId>jmodel</artifactId>
-        <version>0.1.2</version>
+        <version>0.1.3-SNAPSHOT</version>
     </parent>
 
     <name>JModel Sample Project</name>
     <artifactId>jmodel-sample-project</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3-SNAPSHOT</version>
 
     <prerequisites>
         <maven>3.5</maven>
@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.github.carlopantaleo</groupId>
             <artifactId>jmodel-base-dao</artifactId>
-            <version>0.1.2</version>
+            <version>0.1.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -168,7 +168,7 @@
             <plugin>
                 <groupId>com.github.carlopantaleo</groupId>
                 <artifactId>jmodel-maven-plugin</artifactId>
-                <version>0.1.2</version>
+                <version>0.1.3-SNAPSHOT</version>
                 <configuration>
                     <configurationFileName>${project.basedir}/src/main/resources/jmodel-configuration.xml</configurationFileName>
                     <jmodelFileName>${project.basedir}/src/main/resources/jmodel.xml</jmodelFileName>

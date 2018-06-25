@@ -1,18 +1,15 @@
 package com.github.carlopantaleo.jmodel.generators;
 
+import com.github.carlopantaleo.jmodel.entities.Enum;
 import com.github.carlopantaleo.jmodel.entities.Field;
 import com.github.carlopantaleo.jmodel.entities.Table;
-import com.github.carlopantaleo.jmodel.entities.Enum;
 import com.github.carlopantaleo.jmodel.exceptions.ValidationException;
 import com.github.carlopantaleo.jmodel.utils.CamelCaseToKebabCase;
 import com.github.carlopantaleo.jmodel.utils.EntitesExtractor;
-import com.github.carlopantaleo.jmodel.utils.JavascriptBeautifierForJava;
 import com.github.carlopantaleo.jmodel.utils.SnakeCaseToCamelCase;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.w3c.dom.Document;
 
-import javax.script.ScriptException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
@@ -23,24 +20,16 @@ import java.util.Set;
 
 public class TypescriptModelGenerator {
     private static final String TS_EXTENSION = ".ts";
+    private static final String TAB = "    ";
 
     private String destinationDir;
     private Document model;
     private String projectDir;
 
-    private final JavascriptBeautifierForJava beautifier;
-
-    public TypescriptModelGenerator(String destinationDir, Document model, String projectDir)
-            throws MojoFailureException {
+    public TypescriptModelGenerator(String destinationDir, Document model, String projectDir) {
         this.destinationDir = destinationDir;
         this.model = model;
         this.projectDir = projectDir;
-
-        try {
-            beautifier = new JavascriptBeautifierForJava();
-        } catch (Exception e) {
-            throw new MojoFailureException("Unable to initialize javascript beautifier", e);
-        }
     }
 
     public void generateSources() throws Exception {
@@ -90,20 +79,22 @@ public class TypescriptModelGenerator {
         return destinationPath;
     }
 
-    private String makeSource(Table table) throws MojoExecutionException {
+    private String makeSource(Table table) {
         StringBuilder sb = new StringBuilder();
         sb.append("export class ")
                 .append(table.getClassName())
-                .append('{');
+                .append(" {\n");
 
         Set<String> imports = new HashSet<>();
         for (Field field : table.getFields()) {
+            sb.append(TAB);
             writeField(sb, field, imports);
+            sb.append('\n');
         }
 
         sb.append('}');
 
-        String partialOutput = beautify(sb);
+        String partialOutput = sb.toString();
 
         sb = new StringBuilder();
         writeImports(sb, imports);
@@ -121,14 +112,6 @@ public class TypescriptModelGenerator {
             }
 
             sb.append('\n');
-        }
-    }
-
-    private String beautify(StringBuilder sb) throws MojoExecutionException {
-        try {
-            return beautifier.beautify(sb.toString());
-        } catch (ScriptException | NoSuchMethodException e) {
-            throw new MojoExecutionException("Error while beautifying generated javascript", e);
         }
     }
 
@@ -159,20 +142,21 @@ public class TypescriptModelGenerator {
         sb.append(';');
     }
 
-    private String makeSource(Enum theEnum) throws MojoExecutionException {
+    private String makeSource(Enum theEnum) {
         StringBuilder sb = new StringBuilder();
         sb.append("export enum ")
                 .append(SnakeCaseToCamelCase.toCamelCaseCapital(theEnum.getName()))
-                .append('{');
+                .append(" {\n");
 
         for (String item : theEnum.getItems()) {
-            sb.append(item).append(',');
+            sb.append(TAB);
+            sb.append(item).append(",\n");
         }
-        sb.deleteCharAt(sb.length() - 1); // Remove last comma
+        sb.deleteCharAt(sb.length() - 2); // Remove last comma
 
         sb.append('}');
 
-        return beautify(sb);
+        return sb.toString();
     }
 
     private void validateInput() throws ValidationException {

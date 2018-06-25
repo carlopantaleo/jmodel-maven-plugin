@@ -13,6 +13,10 @@
     <artifactId>jmodel-sample-project</artifactId>
     <version>0.1.1-SNAPSHOT</version>
 
+    <prerequisites>
+        <maven>3.5</maven>
+    </prerequisites>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

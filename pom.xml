@@ -7,7 +7,17 @@
     <version>0.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <!-- Release with mvn clean release:prepare release:perform -->
+    <prerequisites>
+        <maven>3.5</maven>
+    </prerequisites>
+
+    <!--
+    Notes to keep POM always fresh and up-to-date:
+        - Update dependencies with `mvn versions:use-latest-releases`
+        - (Manually) update plugins with `mvn versions:display-plugin-updates`
+        - Release with `mvn clean release:prepare release:perform -DignoreSnapshots=true` (remember to have a PGP
+          signature and SontaType credentials properly set in settings.xml)
+    -->
 
     <name>JModel</name>
     <description>
@@ -48,7 +58,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <filesets>
                         <fileset>
@@ -70,6 +80,26 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.5</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.openclover</groupId>

@@ -3,7 +3,7 @@
 
     <groupId>com.github.carlopantaleo</groupId>
     <artifactId>jmodel</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.2</version>
     <packaging>pom</packaging>
 
     <prerequisites>
@@ -41,7 +41,7 @@
         <connection>scm:git:git://github.com/carlopantaleo/jmodel-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:carlopantaleo/carlopantaleo.git</developerConnection>
         <url>https://github.com/carlopantaleo/jmodel-maven-plugin</url>
-        <tag>HEAD</tag>
+        <tag>v0.1.2</tag>
     </scm>
 
     <modules>

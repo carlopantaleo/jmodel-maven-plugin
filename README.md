@@ -13,6 +13,9 @@ It generates:
 Please note: this plugin is in early development: it has not been extensively tested and most features are missing. 
 **DO NOT USE** in production until version 1.0.0 will be released.
 
+Please note (2): until version 1.0.0, we won't use semantic versioning (i.e. every new minor version could break
+backward compatibility).
+
 Anyways, any contribution is well welcomed.
 
 
@@ -26,7 +29,7 @@ Anyways, any contribution is well welcomed.
        <plugin>
            <groupId>com.github.carlopantaleo</groupId>
            <artifactId>jmodel-maven-plugin</artifactId>
-           <version>0.1.2</version>
+           <version>0.1.3</version>
            <configuration>
                <configurationFileName>${project.basedir}/src/main/resources/jmodel-configuration.xml</configurationFileName>
                <jmodelFileName>${project.basedir}/src/main/resources/jmodel.xml</jmodelFileName>
@@ -47,4 +50,4 @@ Anyways, any contribution is well welcomed.
    ``` 
 2. Run `mvn compile`.
   
-You can have a look of a working sample project at [https://github.com/carlopantaleo/jmodel-maven-plugin/tree/master/jmodel-sample-project](https://github.com/carlopantaleo/jmodel-maven-plugin/tree/master/jmodel-sample-project)
+You can have a look at a working sample project at [https://github.com/carlopantaleo/jmodel-maven-plugin/tree/master/jmodel-sample-project](https://github.com/carlopantaleo/jmodel-maven-plugin/tree/master/jmodel-sample-project)

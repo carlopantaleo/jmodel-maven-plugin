@@ -5,12 +5,12 @@
     <parent>
         <artifactId>jmodel</artifactId>
         <groupId>com.github.carlopantaleo</groupId>
-        <version>0.1.3-SNAPSHOT</version>
+        <version>0.1.3</version>
     </parent>
 
     <name>JModel Base Dao</name>
     <artifactId>jmodel-base-dao</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.1.3</version>
     <packaging>jar</packaging>
 
     <prerequisites>

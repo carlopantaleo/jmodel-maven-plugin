@@ -42,7 +42,7 @@ public class GenerateTypescriptModelMojoTest {
                     "    enumField: TestEnum;\n" +
                     "    booleanField: boolean;\n" +
                     "    datetimeField: Date;\n" +
-                    "}";
+                    "}\n";
 
             Path path = new File(GENERATED_DIR + "my-test-table.ts").toPath();
             String content = new String(Files.readAllBytes(path), Charset.forName("UTF8"));
@@ -55,7 +55,7 @@ public class GenerateTypescriptModelMojoTest {
                     "export enum TestEnum {\n" +
                     "    ITEM1,\n" +
                     "    ITEM2\n" +
-                    "}";
+                    "}\n";
 
             Path path = new File(GENERATED_DIR + "test-enum.ts").toPath();
             String content = new String(Files.readAllBytes(path), Charset.forName("UTF8"));

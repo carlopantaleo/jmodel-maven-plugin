@@ -93,7 +93,7 @@ public class TypescriptModelGenerator {
             sb.append('\n');
         }
 
-        sb.append('}');
+        sb.append("}\n");
 
         String partialOutput = sb.toString();
 
@@ -161,7 +161,7 @@ public class TypescriptModelGenerator {
         }
         sb.deleteCharAt(sb.length() - 2); // Remove last comma
 
-        sb.append('}');
+        sb.append("}\n");
 
         return sb.toString();
     }

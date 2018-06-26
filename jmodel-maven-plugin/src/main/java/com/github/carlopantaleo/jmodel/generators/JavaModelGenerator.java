@@ -113,7 +113,7 @@ public class JavaModelGenerator {
         sb.deleteCharAt(sb.length() - 1); // Remove last comma
 
         // Footer
-        sb.append('}');
+        sb.append("}\n");
 
         return beautify(sb);
     }
@@ -196,7 +196,7 @@ public class JavaModelGenerator {
         sb.insert(0, sbHead);
 
         // Footer
-        sb.append('}');
+        sb.append("}\n");
     }
 
     private StringBuilder generateHeading(String body) {

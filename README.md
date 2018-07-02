@@ -51,3 +51,15 @@ Anyways, any contribution is well welcomed.
 2. Run `mvn compile`.
   
 You can have a look at a working sample project at [https://github.com/carlopantaleo/jmodel-maven-plugin/tree/master/jmodel-sample-project](https://github.com/carlopantaleo/jmodel-maven-plugin/tree/master/jmodel-sample-project)
+
+
+## XSDs
+
+The latest `XSD`s for `jmodel.xml` and `jmodel-configuration.xml` can be found at the following links:
+- https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/v0.1.3/jmodel-maven-plugin/src/main/resources/jmodel.xsd
+- https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/v0.1.3/jmodel-maven-plugin/src/main/resources/jmodel-configuration.xsd
+
+It's best to always use the `XSD`s related to the version of the jmodel-maven-plugin. In order to do so, just replace
+the desired version in the link:
+- https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/vX.Y.Z/jmodel-maven-plugin/src/main/resources/jmodel.xsd
+- https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/vX.Y.Z/jmodel-maven-plugin/src/main/resources/jmodel-configuration.xsd

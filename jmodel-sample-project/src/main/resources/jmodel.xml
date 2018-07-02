@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmodel xmlns="http://jmodel.carlopantaleo.com/JModel/2.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://jmodel.carlopantaleo.com/JModel/2.0.0 /jmodel.xsd">
+        xsi:schemaLocation="http://jmodel.carlopantaleo.com/JModel/2.0.0 https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/master/jmodel-maven-plugin/src/main/resources/jmodel.xsd">
 
     <enum name="TEST_ENUM">
         <item>ITEM1</item>

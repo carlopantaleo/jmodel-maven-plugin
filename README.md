@@ -63,3 +63,10 @@ It's best to always use the `XSD`s related to the version of the jmodel-maven-pl
 the desired version in the link:
 - https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/vX.Y.Z/jmodel-maven-plugin/src/main/resources/jmodel.xsd
 - https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/vX.Y.Z/jmodel-maven-plugin/src/main/resources/jmodel-configuration.xsd
+
+
+## TODOs
+
+### Internals
+
+- Replace the `TemplateEngine` with Jtwig.

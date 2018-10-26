@@ -54,7 +54,7 @@ public class HibernateMappingsGenerator {
         }
     }
 
-    private void writeHibernateMappingFile(Table table) throws MojoFailureException, ValidationException {
+    private void writeHibernateMappingFile(Table table) throws MojoFailureException {
         URL url = Resources.getResource(HBM_TEMPLATE);
         try {
             String template = Resources.toString(url, Charsets.UTF_8);
@@ -79,7 +79,7 @@ public class HibernateMappingsGenerator {
         Files.write(outFile.toPath(), result.getBytes());
     }
 
-    private TemplateEngine buildTemplateEngine(String template, Table table) throws ValidationException {
+    private TemplateEngine buildTemplateEngine(String template, Table table) {
         TemplateEngine templateEngine = new TemplateEngine(template)
                 .addField("autogenWarn", SharedConstants.AUTOGEN_WARN)
                 .addField("qualifiedClassName", beansPackage + "." + table.getClassName())
@@ -92,7 +92,7 @@ public class HibernateMappingsGenerator {
         return templateEngine;
     }
 
-    private IteratedField addAndGetIteratedFields(Table table, List<Field> pk) throws ValidationException {
+    private IteratedField addAndGetIteratedFields(Table table, List<Field> pk) {
         IteratedField iteratedField = new IteratedField("fields");
         for (Field field : table.getFields()) {
             if (pk.contains(field)) {
@@ -104,8 +104,7 @@ public class HibernateMappingsGenerator {
         return iteratedField;
     }
 
-    private void addFieldToIteratedField(IteratedField iteratedField, Field field)
-            throws ValidationException {
+    private void addFieldToIteratedField(IteratedField iteratedField, Field field) {
         iteratedField.addField("fieldName", field.getName())
                 .addField("fieldName", SnakeCaseToCamelCase.toCamelCase(field.getName()))
                 .addField("fieldColumnName", field.getName());
@@ -113,7 +112,7 @@ public class HibernateMappingsGenerator {
         iteratedField.next();
     }
 
-    private List<Field> addAndGetPk(Table table, TemplateEngine templateEngine) throws ValidationException {
+    private List<Field> addAndGetPk(Table table, TemplateEngine templateEngine) {
         List<Field> pk = table.getPk();
 
         if (pk.size() == 1) {

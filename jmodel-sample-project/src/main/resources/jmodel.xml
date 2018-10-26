@@ -37,6 +37,9 @@
             <field type="datetime">
                 DATETIME_FIELD
             </field>
+            <field type="time">
+                TIME_FIELD
+            </field>
         </fields>
     </entity>
 

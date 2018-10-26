@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,6 +49,7 @@ public class BaseDaoTest {
         testTable2.setPrimaryKey("pk2");
         testTable2.setSecondField("b");
         testTable2.setDoubleField(1);
+        testTable2.setTimeField(LocalTime.of(11, 30));
         myTestTableBaseDao.insert(testTable2);
 
         List<MyTestTable> byFilter = myTestTableBaseDao.findByFilter(Filter.builder()
@@ -55,6 +57,7 @@ public class BaseDaoTest {
                 .build());
         assertEquals(1, byFilter.size());
         assertEquals("b", byFilter.get(0).getSecondField());
+        assertEquals(LocalTime.of(11, 30), byFilter.get(0).getTimeField());
 
         List<MyTestTable> byOrder = myTestTableBaseDao.findByFilter(Filter.builder()
                 .addOrder("doubleField", Filter.Order.ASC)

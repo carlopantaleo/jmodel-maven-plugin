@@ -23,6 +23,7 @@ public class JavaModelGenerator {
             "javax.annotation.Nullable",
             "java.math.BigDecimal",
             "java.time.LocalDateTime",
+            "java.time.LocalTime",
             "java.io.Serializable")
             .build();
 

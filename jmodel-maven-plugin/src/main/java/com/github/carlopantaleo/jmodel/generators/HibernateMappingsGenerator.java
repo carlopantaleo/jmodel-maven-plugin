@@ -21,29 +21,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Objects;
 
 public class HibernateMappingsGenerator {
-    private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.tpl";
+    private static final String HBM_TEMPLATE = "hbm/hbm-xml-template.twig";
 
     private final String destinationDaoPackage;
     private final String beansPackage;
     private final Document model;
     private final String projectDir;
     private final String destinationResourceDir;
-    private final Log log;
 
     public HibernateMappingsGenerator(String destinationDaoPackage,
                                       String beansPackage,
                                       String destinationResourceDir,
                                       Document model,
-                                      String projectDir,
-                                      Log log) {
+                                      String projectDir) {
         this.destinationDaoPackage = destinationDaoPackage;
         this.beansPackage = beansPackage;
         this.model = model;
         this.projectDir = projectDir;
         this.destinationResourceDir = destinationResourceDir;
-        this.log = log;
     }
 
     public void generateSources() throws Exception {
@@ -83,9 +81,9 @@ public class HibernateMappingsGenerator {
 
     private TemplateEngine buildTemplateEngine(String template, Table table) throws ValidationException {
         TemplateEngine templateEngine = new TemplateEngine(template)
-                .addField("autogen-warn", SharedConstants.AUTOGEN_WARN)
-                .addField("qualified-class-name", beansPackage + "." + table.getClassName())
-                .addField("table-name", table.getName());
+                .addField("autogenWarn", SharedConstants.AUTOGEN_WARN)
+                .addField("qualifiedClassName", beansPackage + "." + table.getClassName())
+                .addField("tableName", table.getName());
 
         List<Field> pk = addAndGetPk(table, templateEngine);
         IteratedField iteratedField = addAndGetIteratedFields(table, pk);
@@ -95,7 +93,7 @@ public class HibernateMappingsGenerator {
     }
 
     private IteratedField addAndGetIteratedFields(Table table, List<Field> pk) throws ValidationException {
-        IteratedField iteratedField = new IteratedField("field");
+        IteratedField iteratedField = new IteratedField("fields");
         for (Field field : table.getFields()) {
             if (pk.contains(field)) {
                 continue;
@@ -108,9 +106,9 @@ public class HibernateMappingsGenerator {
 
     private void addFieldToIteratedField(IteratedField iteratedField, Field field)
             throws ValidationException {
-        iteratedField.addField("field-name", field.getName())
-                .addField("field-name", SnakeCaseToCamelCase.toCamelCase(field.getName()))
-                .addField("field-column-name", field.getName());
+        iteratedField.addField("fieldName", field.getName())
+                .addField("fieldName", SnakeCaseToCamelCase.toCamelCase(field.getName()))
+                .addField("fieldColumnName", field.getName());
         addFieldType(iteratedField, field);
         iteratedField.next();
     }
@@ -120,17 +118,18 @@ public class HibernateMappingsGenerator {
 
         if (pk.size() == 1) {
             Field id = Iterables.getFirst(pk, null);
-            templateEngine.addField("pk-field-name", SnakeCaseToCamelCase.toCamelCase(id.getName()));
-            templateEngine.addField("pk-field-column-name", id.getName());
-            templateEngine.addField("single-id", true);
+            templateEngine.addField("pkFieldName", SnakeCaseToCamelCase.toCamelCase(
+                    Objects.requireNonNull(id, "pk must have been not null at this point.").getName()));
+            templateEngine.addField("pkFieldColumnName", id.getName());
+            templateEngine.addField("singleId", true);
             addFieldType(templateEngine, id);
         } else {
-            IteratedField iteratedField = new IteratedField("pk-field");
+            IteratedField iteratedField = new IteratedField("pkFields");
             for (Field field : pk) {
                 addFieldToIteratedField(iteratedField, field);
             }
 
-            templateEngine.addField("composite-id", true);
+            templateEngine.addField("compositeId", true);
             templateEngine.addIteratedField(iteratedField);
         }
 
@@ -152,11 +151,11 @@ public class HibernateMappingsGenerator {
 
         // Horrible, I know...
         if (addable instanceof TemplateEngine) {
-            ((TemplateEngine) addable).addField("field-column-type", fieldType)
-                    .addField("type-params", fieldParams);
+            ((TemplateEngine) addable).addField("fieldColumnType", fieldType)
+                    .addField("typeParams", fieldParams);
         } else if (addable instanceof IteratedField) {
-            ((IteratedField) addable).addField("field-column-type", fieldType)
-                    .addField("type-params", fieldParams);
+            ((IteratedField) addable).addField("fieldColumnType", fieldType)
+                    .addField("typeParams", fieldParams);
         }
     }
 

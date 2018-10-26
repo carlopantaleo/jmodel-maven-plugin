@@ -53,7 +53,7 @@ public class GenerateHibernateMappingsMojo extends GenerateCodeMojo {
 
             HibernateMappingsGenerator generator =
                     new HibernateMappingsGenerator(destinationDaoPackage, beansPackage, destinationResourceDir,
-                            jmodelDocument.get(), projectDir, getLog());
+                            jmodelDocument.get(), projectDir);
             generator.generateSources();
         } catch (Exception e) {
             throw new MojoExecutionException("Exception while generating sources.", e);

@@ -6,28 +6,28 @@ import static org.junit.Assert.assertEquals;
 
 public class TemplateEngineTest {
     private final String template =
-            "MyField: &{my-field}\n" +
-                    "An Integer Field: &{int-field}\n" +
-                    "@iterated(iter)[" +
-                    "Iterated-1: &{one}\n" +
-                    "Iterated-2: &{two}\n" +
-                    "&{undef-inner-field}" +
-                    "]" +
-                    "@ifdef(defined)[" +
-                    "@iterated(iteratedDef)[" +
-                    "Iterated-3: &{three}\n]" +
-                    "]" +
-                    "@ifdef(undefined)[\n" +
+            "MyField: {{ myField }}\n" +
+                    "An Integer Field: {{ intField }}\n" +
+                    "{% for item in iter %}" +
+                    "Iterated-1: {{ item.one }}\n" +
+                    "Iterated-2: {{ item.two }}\n" +
+                    "{% endfor %}" +
+                    "{% if defined(def) %}" +
+                    "{% for item in iteratedDef %}" +
+                    "Iterated-3: {{ item.three }}\n" +
+                    "{% endfor %}" +
+                    "{% endif %}" +
+                    "{% if defined(undef) %}\n" +
                     "   Nothing\n" +
-                    "]" +
+                    "{% endif %}" +
                     "@@escaped\n" +
-                    "&&escaped" +
-                    "&{undef-field}";
+                    "&&escaped";
+
     @Test
     public void templateEngineWorks() {
         TemplateEngine te = new TemplateEngine(template);
-        te.addField("my-field", "hello")
-                .addField("int-field", 4);
+        te.addField("myField", "hello")
+                .addField("intField", 4);
         TemplateEngine.IteratedField ifield = new TemplateEngine.IteratedField("iter")
                 .addField("one", "uno")
                 .addField("two", "due")
@@ -42,7 +42,7 @@ public class TemplateEngineTest {
                 .addField("three", "sei")
                 .complete();
         te.addIteratedField(ifield2);
-        te.addField("defined", true);
+        te.addField("def", true);
 
         assertEquals("MyField: hello\n" +
                 "An Integer Field: 4\n" +

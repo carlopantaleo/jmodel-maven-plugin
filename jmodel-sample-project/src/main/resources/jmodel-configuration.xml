@@ -2,7 +2,7 @@
 <jmodel-configuration
         xmlns="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0 ttps://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/master/jmodel-maven-plugin/src/main/resources/jmodel-configuration.xsd">
+        xsi:schemaLocation="http://jmodel.carlopantaleo.com/JModel-configuration/1.0.0 https://raw.githubusercontent.com/carlopantaleo/jmodel-maven-plugin/master/jmodel-maven-plugin/src/main/resources/jmodel-configuration.xsd">
 
     <generators>
         <java-generator>

@@ -36,6 +36,7 @@ public class GenerateHibernateMappingsMojoTest {
                 String.format("<property name=\"enumField\" column=\"ENUM_FIELD\">%n" +
                 "            <type name=\"org.hibernate.type.EnumType\">%n" +
                 "                <param name=\"enumClass\">com.jmodel.generated.TestEnum</param>%n" +
+                "                <param name=\"useNamed\">true</param>%n" +
                 "            </type>%n" +
                 "        </property>")));
         assertTrue(content.contains(

@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -136,16 +137,18 @@ public class HibernateMappingsGenerator {
     }
 
     private void addFieldType(Object addable, Field field) {
-        String fieldType, fieldParams;
+        String fieldType;
+        List<String> fieldParams = new ArrayList<>();
         if (field.getType() == Enum.class) {
             fieldType = "org.hibernate.type.EnumType";
-            fieldParams = "<param name=\"enumClass\">" +
+            fieldParams.add("<param name=\"enumClass\">" +
                     beansPackage + "." +
                     SnakeCaseToCamelCase.toCamelCaseCapital(field.getReferredEnum()) +
-                    "</param>";
+                    "</param>");
+            fieldParams.add("<param name=\"useNamed\">true</param>");
         } else {
             fieldType = field.getType().getTypeName();
-            fieldParams = "<!-- no params -->";
+            fieldParams.add("<!-- no params -->");
         }
 
         // Horrible, I know...

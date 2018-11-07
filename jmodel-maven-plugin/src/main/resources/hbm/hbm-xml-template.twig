@@ -10,18 +10,17 @@
            table="{{ tableName }}">
         {% if defined(singleId) %}
         <id name="{{ pkFieldName }}" column="{{ pkFieldColumnName }}">
-            <type name="{{ fieldColumnType }}">
-                {{ typeParams }}
+            <type name="{{ fieldColumnType }}">{% for param in typeParams %}
+                {{ param }}{% endfor %}
             </type>
             <!-- Generator not yet supported -->
         </id>
-        {% endif %}
-        {% if defined(compositeId) %}
+        {% elseif defined(compositeId) %}
         <composite-id>
             {% for item in pkFields %}
             <key-property name="{{ item.fieldName }}" column="{{ item.fieldColumnName }}">
-                <type name="{{ item.fieldColumnType}}">
-                    {{ item.typeParams }}
+                <type name="{{ item.fieldColumnType}}">{% for param in item.typeParams %}
+                    {{ param }}{% endfor %}
                 </type>
             </key-property>
             {% endfor %}
@@ -30,8 +29,8 @@
 
         {% for item in fields %}
         <property name="{{ item.fieldName }}" column="{{ item.fieldColumnName }}">
-            <type name="{{ item.fieldColumnType }}">
-                {{ item.typeParams }}
+            <type name="{{ item.fieldColumnType }}">{% for param in item.typeParams %}
+                {{ param }}{% endfor %}
             </type>
         </property>
         {% endfor %}

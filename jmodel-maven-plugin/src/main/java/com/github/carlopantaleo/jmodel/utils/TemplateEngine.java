@@ -43,7 +43,7 @@ public class TemplateEngine {
             this.name = name;
         }
 
-        public IteratedField addField(String name, String value) {
+        public IteratedField addField(String name, Object value) {
             fields.put(name, value);
             return this;
         }

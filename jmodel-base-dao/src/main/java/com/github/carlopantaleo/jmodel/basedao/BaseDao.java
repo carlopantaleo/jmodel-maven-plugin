@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,12 @@ public class BaseDao<T extends Serializable> {
         this.clazz = clazzToSet;
     }
 
+    @Transactional
     public T findOne(Serializable id) {
         return getCurrentSession().get(clazz, id);
     }
 
+    @Transactional
     public List<T> findByFilter(Filter filter) {
         CriteriaBuilder builder = getCurrentSession().getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
@@ -46,22 +49,27 @@ public class BaseDao<T extends Serializable> {
         return getCurrentSession().createQuery(criteriaQuery).getResultList();
     }
 
+    @Transactional
     public List<T> findAll() {
         return findByFilter(Filter.builder().build());
     }
 
+    @Transactional
     public void insert(T entity) {
         getCurrentSession().persist(entity);
     }
 
+    @Transactional
     public void update(T entity) {
         getCurrentSession().merge(entity);
     }
 
+    @Transactional
     public void delete(T entity) {
         getCurrentSession().delete(entity);
     }
 
+    @Transactional
     public void deleteById(Serializable entityId) {
         T entity = findOne(entityId);
         delete(entity);
